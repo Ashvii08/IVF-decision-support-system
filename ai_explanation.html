@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Explanation — {{ patient.Patient_Name }}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#F4A7C3;--pink-d:#E07FA8;--lilac:#C4A8E0;--lilac-d:#9B72C8;--bg:#FBF2FF;--white:#fff;--text:#3D2C4E;--grey:#8A7A9A;}
+body{background:var(--bg);font-family:'Segoe UI',sans-serif;color:var(--text);}
+.sidebar{position:fixed;top:0;left:0;width:230px;height:100vh;background:linear-gradient(180deg,#3D2C4E,#5E3D7A);display:flex;flex-direction:column;padding:28px 20px;z-index:100;}
+.sidebar-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.sidebar-logo .icon{width:36px;height:36px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.sidebar-logo h2{color:white;font-size:15px;font-weight:700;}
+.patient-pill{background:rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;margin-bottom:20px;}
+.patient-pill .pid{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;}
+.patient-pill .pname{font-size:14px;color:white;font-weight:600;margin-top:2px;}
+.nav-section{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;padding:0 14px;margin-bottom:8px;margin-top:10px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:rgba(255,255,255,.6);font-size:13px;transition:all .2s;margin-bottom:3px;text-decoration:none;}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.13);color:white;}
+.nav-item.active{border-left:3px solid var(--pink);}
+.sidebar-footer{margin-top:auto;padding:12px;background:rgba(255,255,255,.07);border-radius:10px;}
+.sf-name{color:white;font-size:13px;font-weight:600;}
+.sf-role{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px;}
+.sidebar-footer a{color:var(--pink);font-size:11px;text-decoration:none;display:inline-block;margin-top:6px;margin-right:10px;}
+.main{margin-left:230px;padding:32px;}
+.page-title{font-size:24px;font-weight:800;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--grey);margin-bottom:24px;}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:24px;}
+.card{background:white;border-radius:18px;padding:24px;box-shadow:0 2px 14px rgba(155,114,200,.08);}
+.card-title{font-size:13px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;}
+.chat-box{height:400px;overflow-y:auto;border:1.5px solid #E8D5F0;border-radius:14px;padding:16px;background:#FDFAFF;margin-bottom:14px;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:90%;padding:12px 16px;border-radius:14px;font-size:14px;line-height:1.6;}
+.msg.bot{background:#F5EEFF;color:var(--text);border-bottom-left-radius:4px;align-self:flex-start;white-space:pre-wrap;}
+.msg.user{background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border-bottom-right-radius:4px;align-self:flex-end;}
+.msg.system{background:#E8F8EE;color:#1D6B3E;font-size:12px;align-self:center;border-radius:10px;text-align:center;}
+.msg.error-msg{background:#FFE8EC;color:#8B1A2B;font-size:13px;align-self:center;border-radius:10px;}
+.chat-input-row{display:flex;gap:10px;}
+.chat-input{flex:1;padding:12px 14px;border:1.5px solid #E8D5F0;border-radius:12px;font-size:14px;outline:none;}
+.chat-input:focus{border-color:var(--lilac-d);}
+.send-btn{padding:12px 18px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;}
+.send-btn:disabled{opacity:.6;cursor:not-allowed;}
+.quick-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.qbtn{padding:7px 14px;border:1.5px solid #E8D5F0;background:white;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;color:var(--lilac-d);transition:all .2s;}
+.qbtn:hover{background:#F5EEFF;border-color:var(--lilac-d);}
+.saved-list{display:flex;flex-direction:column;gap:12px;max-height:480px;overflow-y:auto;}
+.saved-item{background:#FDF7FF;border:1px solid #EDD8F8;border-radius:12px;padding:14px;}
+.saved-item-date{font-size:11px;color:var(--grey);margin-bottom:6px;}
+.saved-item-text{font-size:13px;line-height:1.5;white-space:pre-wrap;}
+.saved-item-actions{display:flex;gap:8px;margin-top:10px;}
+.use-btn{padding:6px 14px;background:linear-gradient(135deg,var(--pink),var(--lilac));color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;}
+.save-exp-btn{width:100%;padding:11px;background:white;border:2px solid var(--lilac-d);color:var(--lilac-d);border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;}
+.save-exp-btn:hover{background:#F5EEFF;}
+.empty-saved{text-align:center;padding:40px 20px;color:var(--grey);font-size:13px;}
+.typing-indicator{display:flex;gap:4px;align-items:center;padding:12px 16px;background:#F5EEFF;border-radius:14px;align-self:flex-start;border-bottom-left-radius:4px;}
+.typing-indicator span{width:8px;height:8px;background:var(--lilac-d);border-radius:50%;animation:blink 1.4s infinite;}
+.typing-indicator span:nth-child(2){animation-delay:.2s;}
+.typing-indicator span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+</style>
+</head>
+<body>
+{% set pid = patient.Patient_ID %}
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="icon"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 2v7l4 2" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+    <h2>FertiCare AI</h2>
+  </div>
+  <div class="patient-pill">
+    <div class="pid">{{ patient.Patient_ID }}</div>
+    <div class="pname">{{ patient.Patient_Name }}</div>
+  </div>
+  <div class="nav-section">Patient Sections</div>
+  <a class="nav-item" href="/dashboard/{{ pid }}">🏠 Overview</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/clinical-data">📋 Clinical Data</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/simulation">🔬 Simulation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/ai-prediction">🤖 AI Prediction</a>
+  <a class="nav-item active" href="/dashboard/{{ pid }}/ai-explanation">💬 AI Explanation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/scan-reports">🖼️ Scan Reports</a>
+  <div class="sidebar-footer">
+    <div class="sf-name">{{ user.name }}</div>
+    <div class="sf-role">{{ user.role }}</div>
+    <a href="/overview">← Patients</a><a href="/logout">Sign Out</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-title">AI Explanation</div>
+  <div class="page-sub">Clinical AI assistant for {{ patient.Patient_Name }} — ask questions, get explanations, save them to records</div>
+
+  <div class="layout">
+    <div class="card">
+      <div class="card-title">Clinical AI Chat</div>
+      <div class="quick-btns">
+        <button class="qbtn" onclick="sendQuick('Explain the ovarian response prediction for this patient')">Explain response</button>
+        <button class="qbtn" onclick="sendQuick('What is the OHSS risk and why?')">OHSS risk</button>
+        <button class="qbtn" onclick="sendQuick('Summarize all clinical findings')">Full summary</button>
+        <button class="qbtn" onclick="sendQuick('What parameters are abnormal?')">Abnormal params</button>
+        <button class="qbtn" onclick="sendQuick('Give treatment recommendations based on these values')">Recommendations</button>
+      </div>
+      <div class="chat-box" id="chat-box"></div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" placeholder="Ask about this patient's clinical data…" onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendMessage()">
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
+      </div>
+      <button class="save-exp-btn" onclick="saveCurrentChat()">💾 Save This Explanation</button>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">Saved Explanations</div>
+        <div class="saved-list" id="saved-list">
+          {% if explanations %}
+            {% for exp in explanations %}
+            <div class="saved-item">
+              <div class="saved-item-date">{{ exp.created_at[:16] }}</div>
+              <div class="saved-item-text">{{ exp.explanation_text[:200] }}{% if exp.explanation_text|length > 200 %}…{% endif %}</div>
+              <div class="saved-item-actions">
+                <button class="use-btn" onclick="loadExp({{ loop.index0 }})">📂 Load</button>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-saved">No saved explanations yet.<br>Generate and save one using the chat.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const patient = {{ patient | tojson }};
+const savedExps = {{ explanations | tojson }};
+let lastBotMessage = '';
+let isLoading = false;
+
+function addMessage(text, role){
+  const box = document.getElementById('chat-box');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  if(role === 'bot') lastBotMessage = text;
+  return div;
+}
+
+function addTyping(){
+  const box = document.getElementById('chat-box');
+  const div = document.createElement('div');
+  div.className = 'typing-indicator';
+  div.id = 'typing-ind';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function removeTyping(){
+  const t = document.getElementById('typing-ind');
+  if(t) t.remove();
+}
+
+async function sendMessage(){
+  if(isLoading) return;
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+  addMessage(msg, 'user');
+  await getExplanation(msg);
+}
+
+function sendQuick(msg){
+  if(isLoading) return;
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+}
+
+async function getExplanation(question){
+  isLoading = true;
+  document.getElementById('send-btn').disabled = true;
+  addTyping();
+  
+  try{
+    const r = await fetch('/api/generate_explanation', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        patient: patient,
+        question: question
+      })
+    });
+    const d = await r.json();
+    removeTyping();
+    if(d.success && d.reply){
+      addMessage(d.reply, 'bot');
+    } else {
+      addMessage('Could not generate explanation. Please try again.', 'error-msg');
+    }
+  } catch(e){
+    removeTyping();
+    addMessage('Server error: ' + e.message + '. Make sure the Flask app is running.', 'error-msg');
+  } finally {
+    isLoading = false;
+    document.getElementById('send-btn').disabled = false;
+  }
+}
+
+async function saveCurrentChat(){
+  if(!lastBotMessage){
+    addMessage('Please generate an explanation first by asking a question.', 'system');
+    return;
+  }
+  try{
+    const r = await fetch('/api/save_explanation/{{ pid }}', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({explanation_text: lastBotMessage})
+    });
+    const d = await r.json();
+    if(d.success){
+      addMessage('✅ Explanation saved successfully to patient records.', 'system');
+      setTimeout(()=>location.reload(), 1500);
+    }
+  } catch(e){
+    addMessage('Save failed. Please try again.', 'error-msg');
+  }
+}
+
+function loadExp(idx){
+  const exp = savedExps[idx];
+  if(!exp) return;
+  document.getElementById('chat-box').innerHTML = '';
+  addMessage('[Loaded saved explanation from ' + exp.created_at.slice(0,16) + ']', 'system');
+  addMessage(exp.explanation_text, 'bot');
+}
+
+// Initial greeting
+window.onload = function(){
+  addMessage(
+    'Hello! I\'m the FertiCare clinical AI for ' + patient.Patient_Name + '.\n\n' +
+    'I can explain ovarian response predictions, OHSS risk factors, abnormal parameters, and treatment recommendations — all based on this patient\'s data.\n\n' +
+    'Use the quick buttons above or type your question below.',
+    'bot'
+  );
+};
+</script>
+</body>
+</html>

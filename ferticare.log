@@ -1,0 +1,344 @@
+2026-04-10 02:10:37,297 - werkzeug - WARNING -  * Debugger is active!
+2026-04-10 02:10:37,313 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-10 02:18:22,770 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.8:5000
+2026-04-10 02:18:22,770 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-10 02:18:22,770 - werkzeug - INFO -  * Restarting with stat
+2026-04-10 02:18:26,098 - werkzeug - WARNING -  * Debugger is active!
+2026-04-10 02:18:26,113 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-10 02:18:33,878 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:18:33] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-10 02:18:33,892 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:18:33] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:18:34,004 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:18:34] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:18:45,200 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:18:45] "GET /login HTTP/1.1" 200 -
+2026-04-10 02:19:07,855 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-10 02:19:07,870 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:19:07] "POST /login HTTP/1.1" 200 -
+2026-04-10 02:19:07,900 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:19:07] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:19:08,017 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:19:08] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:19:35,566 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:19:35] "POST /api/ocr HTTP/1.1" 200 -
+2026-04-10 02:21:04,817 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:04] "GET /dashboard/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:21:16,188 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:16] "GET /dashboard/FERT10003/clinical-data HTTP/1.1" 200 -
+2026-04-10 02:21:21,486 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:21] "GET /dashboard/FERT10003/simulation HTTP/1.1" 200 -
+2026-04-10 02:21:30,127 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:30] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 02:21:47,569 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:47] "GET /dashboard/FERT10003/ai-prediction HTTP/1.1" 200 -
+2026-04-10 02:21:49,713 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:49] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 02:21:57,643 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:21:57] "GET /dashboard/FERT10003/ai-explanation HTTP/1.1" 200 -
+2026-04-10 02:22:25,003 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:22:25] "GET /dashboard/FERT10003/scan-reports HTTP/1.1" 200 -
+2026-04-10 02:22:25,060 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:22:25] "GET /api/get_scans/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:22:34,129 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:22:34] "GET /dashboard/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:22:35,040 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:22:35] "GET /dashboard/FERT10003/ai-explanation HTTP/1.1" 200 -
+2026-04-10 02:24:24,903 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:24:24] "GET /dashboard/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:24:28,405 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:24:28] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:24:28,462 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:24:28] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:26:51,556 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:26:51] "GET /api/mock_hospital_data HTTP/1.1" 200 -
+2026-04-10 02:26:58,675 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:26:58] "GET /dashboard/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:27:16,681 - __main__ - INFO - User: ash00 | Action: Generate Report | Patient: FERT10003
+2026-04-10 02:27:16,689 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:27:16] "GET /api/report/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:27:31,254 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:27:31] "GET /dashboard/FERT10003/clinical-data HTTP/1.1" 200 -
+2026-04-10 02:27:38,276 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:27:38] "GET /dashboard/FERT10003/simulation HTTP/1.1" 200 -
+2026-04-10 02:27:41,341 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:27:41] "GET /dashboard/FERT10003/ai-prediction HTTP/1.1" 200 -
+2026-04-10 02:27:44,014 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:27:44] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 02:27:48,886 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:27:48] "GET /dashboard/FERT10003/ai-explanation HTTP/1.1" 200 -
+2026-04-10 02:28:21,812 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:21] "GET /dashboard/FERT10003/scan-reports HTTP/1.1" 200 -
+2026-04-10 02:28:21,863 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:21] "GET /api/get_scans/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:28:33,556 - __main__ - INFO - User: ash00 | Action: Upload Scan | Patient: FERT10003
+2026-04-10 02:28:33,572 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:33] "POST /api/save_scan HTTP/1.1" 200 -
+2026-04-10 02:28:33,587 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:33] "GET /api/get_scans/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:28:37,057 - __main__ - INFO - User: ash00 | Action: Delete Scan | Details: ID: 2
+2026-04-10 02:28:37,068 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:37] "DELETE /api/delete_scan/2 HTTP/1.1" 200 -
+2026-04-10 02:28:37,081 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:37] "GET /api/get_scans/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:28:41,186 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:41] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:28:41,296 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:28:41] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:50:08,674 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.8:5000
+2026-04-10 02:50:08,674 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-10 02:50:08,680 - werkzeug - INFO -  * Restarting with stat
+2026-04-10 02:50:12,094 - werkzeug - WARNING -  * Debugger is active!
+2026-04-10 02:50:12,101 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-10 02:52:14,506 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.8:5000
+2026-04-10 02:52:14,506 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-10 02:52:14,509 - werkzeug - INFO -  * Restarting with stat
+2026-04-10 02:52:18,742 - werkzeug - WARNING -  * Debugger is active!
+2026-04-10 02:52:18,754 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-10 02:52:30,754 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:52:30] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-10 02:52:30,772 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:52:30] "GET /login HTTP/1.1" 200 -
+2026-04-10 02:52:42,058 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-10 02:52:42,065 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:52:42] "POST /login HTTP/1.1" 200 -
+2026-04-10 02:52:42,123 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:52:42] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:52:42,205 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:52:42] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:52:52,353 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:52:52] "GET /api/xlsx_template HTTP/1.1" 200 -
+2026-04-10 02:53:25,765 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:53:25] "POST /api/ocr HTTP/1.1" 200 -
+2026-04-10 02:56:26,144 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:56:26] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:56:26,198 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:56:26] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:57:51,927 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:57:51] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:57:51,982 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:57:51] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:57:57,981 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:57:57] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-10 02:57:57,991 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:57:57] "GET /overview HTTP/1.1" 200 -
+2026-04-10 02:57:58,094 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:57:58] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 02:58:33,621 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:58:33] "GET /dashboard/FERT10003 HTTP/1.1" 200 -
+2026-04-10 02:58:40,568 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:58:40] "GET /dashboard/FERT10003/clinical-data HTTP/1.1" 200 -
+2026-04-10 02:58:42,603 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:58:42] "GET /dashboard/FERT10003/simulation HTTP/1.1" 200 -
+2026-04-10 02:58:52,543 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:58:52] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 02:58:56,161 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:58:56] "GET /dashboard/FERT10003/ai-prediction HTTP/1.1" 200 -
+2026-04-10 02:58:58,144 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:58:58] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 02:59:01,080 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:59:01] "GET /dashboard/FERT10003/ai-explanation HTTP/1.1" 200 -
+2026-04-10 02:59:03,159 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:59:03] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-10 02:59:31,109 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 02:59:31] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-10 03:00:13,502 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 03:00:13] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-10 03:00:20,503 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 03:00:20] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-10 03:00:27,091 - __main__ - INFO - User: ash00 | Action: Save Explanation | Patient: FERT10003
+2026-04-10 03:00:27,103 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 03:00:27] "POST /api/save_explanation/FERT10003 HTTP/1.1" 200 -
+2026-04-10 03:00:28,667 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 03:00:28] "GET /dashboard/FERT10003/ai-explanation HTTP/1.1" 200 -
+2026-04-10 03:00:38,918 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 03:00:38] "GET /dashboard/FERT10003/scan-reports HTTP/1.1" 200 -
+2026-04-10 03:00:38,979 - werkzeug - INFO - 192.168.1.8 - - [10/Apr/2026 03:00:38] "GET /api/get_scans/FERT10003 HTTP/1.1" 200 -
+2026-04-10 03:01:03,689 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.8:5000
+2026-04-10 03:01:03,689 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-10 03:01:03,695 - werkzeug - INFO -  * Restarting with stat
+2026-04-10 03:01:08,035 - werkzeug - WARNING -  * Debugger is active!
+2026-04-10 03:01:10,292 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-10 03:01:14,826 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:01:14] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-10 03:01:14,847 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:01:14] "GET /login HTTP/1.1" 200 -
+2026-04-10 03:01:23,220 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-10 03:01:23,228 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:01:23] "POST /login HTTP/1.1" 200 -
+2026-04-10 03:01:23,281 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:01:23] "GET /overview HTTP/1.1" 200 -
+2026-04-10 03:01:23,333 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:01:23] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 03:03:29,439 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:29] "GET /api/mock_hospital_data HTTP/1.1" 200 -
+2026-04-10 03:03:34,455 - __main__ - INFO - User: ash00 | Action: Add Patient | Patient: FERT7006B0F4 | Details: Sunita Reddy
+2026-04-10 03:03:34,463 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:34] "POST /api/add_patient HTTP/1.1" 200 -
+2026-04-10 03:03:34,471 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:34] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 03:03:40,494 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:40] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-10 03:03:55,846 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:55] "GET /overview HTTP/1.1" 200 -
+2026-04-10 03:03:55,901 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:55] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 03:03:59,918 - __main__ - INFO - User: ash00 | Action: Logout
+2026-04-10 03:03:59,926 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:59] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-10 03:03:59,935 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:03:59] "GET /login HTTP/1.1" 200 -
+2026-04-10 03:05:14,595 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:05:14] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2026-04-10 03:05:24,898 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:05:24] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2026-04-10 03:09:49,552 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:09:49] "GET /login HTTP/1.1" 200 -
+2026-04-10 03:10:09,764 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-10 03:10:09,764 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:10:09] "POST /login HTTP/1.1" 200 -
+2026-04-10 03:10:09,776 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:10:09] "GET /overview HTTP/1.1" 200 -
+2026-04-10 03:10:09,856 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:10:09] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 03:11:24,250 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:11:24] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-10 03:11:40,388 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:11:40] "GET /dashboard/FERT7006B0F4/clinical-data HTTP/1.1" 200 -
+2026-04-10 03:11:46,279 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:11:46] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-10 03:12:00,600 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:12:00] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 03:12:17,658 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:12:17] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 03:13:01,537 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:01] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-10 03:13:07,772 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:07] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 03:13:23,447 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:23] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-10 03:13:24,313 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:24] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-10 03:13:26,042 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:26] "POST /api/predict HTTP/1.1" 200 -
+2026-04-10 03:13:49,643 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:49] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-10 03:13:57,320 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:13:57] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-10 03:14:10,585 - __main__ - INFO - User: ash00 | Action: Save Explanation | Patient: FERT7006B0F4
+2026-04-10 03:14:10,585 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:10] "POST /api/save_explanation/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-10 03:14:12,151 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:12] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-10 03:14:14,832 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:14] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-10 03:14:23,416 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:23] "GET /dashboard/FERT7006B0F4/scan-reports HTTP/1.1" 200 -
+2026-04-10 03:14:23,463 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:23] "GET /api/get_scans/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-10 03:14:35,879 - __main__ - INFO - User: ash00 | Action: Upload Scan | Patient: FERT7006B0F4
+2026-04-10 03:14:35,895 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:35] "POST /api/save_scan HTTP/1.1" 200 -
+2026-04-10 03:14:35,926 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:35] "GET /api/get_scans/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-10 03:14:54,703 - __main__ - INFO - User: ash00 | Action: Logout
+2026-04-10 03:14:54,711 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:54] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-10 03:14:54,718 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 03:14:54] "GET /login HTTP/1.1" 200 -
+2026-04-10 14:38:01,092 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.114.142.27:5000
+2026-04-10 14:38:01,092 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-10 14:38:01,107 - werkzeug - INFO -  * Restarting with stat
+2026-04-10 14:38:04,873 - werkzeug - WARNING -  * Debugger is active!
+2026-04-10 14:38:04,873 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-10 14:38:12,410 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:12] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-10 14:38:12,522 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:12] "GET /login HTTP/1.1" 200 -
+2026-04-10 14:38:13,471 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-10 14:38:19,049 - __main__ - INFO - User: varusai00 | Action: Login | Details: Role: Doctor
+2026-04-10 14:38:19,063 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:19] "POST /login HTTP/1.1" 200 -
+2026-04-10 14:38:19,162 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:19] "GET /overview HTTP/1.1" 200 -
+2026-04-10 14:38:19,227 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:19] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 14:38:33,209 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:38:33] "GET /dashboard/FERT10004 HTTP/1.1" 200 -
+2026-04-10 14:39:17,198 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:39:17] "GET /dashboard/FERT10004/ai-explanation HTTP/1.1" 200 -
+2026-04-10 14:39:19,845 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:39:19] "GET /dashboard/FERT10004/scan-reports HTTP/1.1" 200 -
+2026-04-10 14:39:19,930 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:39:19] "GET /api/get_scans/FERT10004 HTTP/1.1" 200 -
+2026-04-10 14:39:21,519 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:39:21] "GET /dashboard/FERT10004 HTTP/1.1" 200 -
+2026-04-10 14:39:25,606 - __main__ - INFO - User: varusai00 | Action: Logout
+2026-04-10 14:39:25,614 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:39:25] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-10 14:39:25,622 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 14:39:25] "GET /login HTTP/1.1" 200 -
+2026-04-10 15:00:42,382 - __main__ - INFO - User: varusai00 | Action: Login | Details: Role: Doctor
+2026-04-10 15:00:42,382 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:00:42] "POST /login HTTP/1.1" 200 -
+2026-04-10 15:00:42,407 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:00:42] "GET /overview HTTP/1.1" 200 -
+2026-04-10 15:00:42,499 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:00:42] "GET /api/patients HTTP/1.1" 200 -
+2026-04-10 15:00:46,354 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:00:46] "GET /dashboard/FERT10004 HTTP/1.1" 200 -
+2026-04-10 15:00:51,582 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:00:51] "GET /dashboard/FERT10004/clinical-data HTTP/1.1" 200 -
+2026-04-10 15:00:55,624 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:00:55] "GET /dashboard/FERT10004/simulation HTTP/1.1" 200 -
+2026-04-10 15:01:01,542 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:01:01] "GET /dashboard/FERT10004 HTTP/1.1" 200 -
+2026-04-10 15:01:05,550 - __main__ - INFO - User: varusai00 | Action: Generate Report | Patient: FERT10004
+2026-04-10 15:01:05,567 - werkzeug - INFO - 127.0.0.1 - - [10/Apr/2026 15:01:05] "GET /api/report/FERT10004 HTTP/1.1" 200 -
+2026-04-22 11:49:17,733 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://127.0.0.1:5000
+2026-04-22 11:49:17,733 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-22 11:49:17,733 - werkzeug - INFO -  * Restarting with stat
+2026-04-22 11:49:21,828 - werkzeug - WARNING -  * Debugger is active!
+2026-04-22 11:49:21,843 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-22 11:50:07,426 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:50:07] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-22 11:50:07,543 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:50:07] "GET /login HTTP/1.1" 200 -
+2026-04-22 11:50:07,745 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:50:07] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-22 11:50:15,500 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-22 11:50:15,500 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:50:15] "POST /login HTTP/1.1" 200 -
+2026-04-22 11:50:15,599 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:50:15] "GET /overview HTTP/1.1" 200 -
+2026-04-22 11:50:15,666 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:50:15] "GET /api/patients HTTP/1.1" 200 -
+2026-04-22 11:51:19,535 - __main__ - INFO - User: ash00 | Action: Logout
+2026-04-22 11:51:19,543 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:51:19] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-22 11:51:19,551 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 11:51:19] "GET /login HTTP/1.1" 200 -
+2026-04-22 12:01:05,596 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-22 12:01:05,605 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:01:05] "POST /login HTTP/1.1" 200 -
+2026-04-22 12:01:05,623 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:01:05] "GET /overview HTTP/1.1" 200 -
+2026-04-22 12:01:05,731 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:01:05] "GET /api/patients HTTP/1.1" 200 -
+2026-04-22 12:01:46,050 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:01:46] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-22 12:02:18,458 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:02:18] "GET /dashboard/FERT7006B0F4/clinical-data HTTP/1.1" 200 -
+2026-04-22 12:02:32,525 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:02:32] "GET /overview HTTP/1.1" 200 -
+2026-04-22 12:02:32,597 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:02:32] "GET /api/patients HTTP/1.1" 200 -
+2026-04-22 12:03:07,842 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:07] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-22 12:03:10,865 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:10] "GET /dashboard/FERT7006B0F4/clinical-data HTTP/1.1" 200 -
+2026-04-22 12:03:12,371 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:12] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-22 12:03:37,697 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:37] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:03:48,878 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:48] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:03:52,304 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:52] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:03:53,345 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:53] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:03:54,094 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:54] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:03:58,063 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:03:58] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:04:02,427 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:04:02] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:04:05,886 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:04:05] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:04:09,488 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:04:09] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-22 12:04:51,060 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:04:51] "GET /dashboard/FERT7006B0F4/scan-reports HTTP/1.1" 200 -
+2026-04-22 12:04:51,168 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:04:51] "GET /api/get_scans/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-22 12:04:57,648 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:04:57] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-22 12:05:00,208 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:05:00] "POST /api/predict HTTP/1.1" 200 -
+2026-04-22 12:05:07,174 - werkzeug - INFO - 127.0.0.1 - - [22/Apr/2026 12:05:07] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-26 22:07:37,660 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.9:5000
+2026-04-26 22:07:37,668 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-26 22:07:37,676 - werkzeug - INFO -  * Restarting with stat
+2026-04-26 22:07:42,164 - werkzeug - WARNING -  * Debugger is active!
+2026-04-26 22:07:42,255 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-26 22:07:54,772 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:07:54] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-26 22:07:55,384 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:07:55] "GET /login HTTP/1.1" 200 -
+2026-04-26 22:07:56,082 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:07:56] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-26 22:07:57,932 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-26 22:07:58,079 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:07:58] "POST /login HTTP/1.1" 200 -
+2026-04-26 22:07:58,393 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:07:58] "GET /overview HTTP/1.1" 200 -
+2026-04-26 22:07:58,482 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:07:58] "GET /api/patients HTTP/1.1" 200 -
+2026-04-26 22:08:01,265 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:01] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-26 22:08:11,646 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:11] "GET /dashboard/FERT7006B0F4/clinical-data HTTP/1.1" 200 -
+2026-04-26 22:08:16,176 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:16] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-26 22:08:25,897 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:25] "POST /api/predict HTTP/1.1" 200 -
+2026-04-26 22:08:31,548 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:31] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-26 22:08:33,758 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:33] "POST /api/predict HTTP/1.1" 200 -
+2026-04-26 22:08:38,167 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:38] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-26 22:08:44,177 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:44] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-26 22:08:53,792 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:08:53] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-26 22:09:05,561 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:09:05] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-26 22:09:24,505 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:09:24] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-26 22:09:30,335 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:09:30] "GET /dashboard/FERT7006B0F4/scan-reports HTTP/1.1" 200 -
+2026-04-26 22:09:30,410 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:09:30] "GET /api/get_scans/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-26 22:09:40,748 - __main__ - INFO - User: ash00 | Action: Logout
+2026-04-26 22:09:40,756 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:09:40] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-26 22:09:40,764 - werkzeug - INFO - 127.0.0.1 - - [26/Apr/2026 22:09:40] "GET /login HTTP/1.1" 200 -
+2026-04-30 10:46:20,054 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.148.175.27:5000
+2026-04-30 10:46:20,070 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 10:46:20,070 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 10:46:23,638 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 10:46:23,638 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-30 10:46:38,317 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:38] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-30 10:46:38,486 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:38] "GET /login HTTP/1.1" 200 -
+2026-04-30 10:46:38,783 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:38] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-30 10:46:43,526 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-30 10:46:43,532 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:43] "POST /login HTTP/1.1" 200 -
+2026-04-30 10:46:43,634 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:43] "GET /overview HTTP/1.1" 200 -
+2026-04-30 10:46:43,690 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:43] "GET /api/patients HTTP/1.1" 200 -
+2026-04-30 10:46:49,952 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:49] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 10:46:53,824 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:53] "GET /dashboard/FERT7006B0F4/clinical-data HTTP/1.1" 200 -
+2026-04-30 10:46:55,853 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:46:55] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-30 10:47:27,807 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:27] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 10:47:33,000 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:33] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-30 10:47:35,448 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:35] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 10:47:38,198 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:38] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-30 10:47:41,130 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:41] "GET /dashboard/FERT7006B0F4/scan-reports HTTP/1.1" 200 -
+2026-04-30 10:47:41,188 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:41] "GET /api/get_scans/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 10:47:44,216 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:47:44] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 10:51:08,792 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:51:08] "GET /overview HTTP/1.1" 200 -
+2026-04-30 10:51:08,877 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 10:51:08] "GET /api/patients HTTP/1.1" 200 -
+2026-04-30 11:00:02,035 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:00:02] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 11:38:30,014 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.148.175.27:5000
+2026-04-30 11:38:30,014 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 11:38:30,030 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 11:38:33,316 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 11:38:33,316 - werkzeug - INFO -  * Debugger PIN: 514-194-548
+2026-04-30 11:38:44,611 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:38:44] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-30 11:38:44,699 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:38:44] "GET /login HTTP/1.1" 200 -
+2026-04-30 11:38:45,018 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:38:45] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-30 11:38:47,844 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-30 11:38:47,860 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:38:47] "POST /login HTTP/1.1" 200 -
+2026-04-30 11:38:47,948 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:38:47] "GET /overview HTTP/1.1" 200 -
+2026-04-30 11:38:48,051 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:38:48] "GET /api/patients HTTP/1.1" 200 -
+2026-04-30 11:39:19,316 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:19] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 11:39:24,296 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:24] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-30 11:39:26,031 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:26] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:39:35,928 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:35] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:39:40,588 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:40] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:39:45,204 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:45] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-30 11:39:47,023 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:39:47] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:40:05,324 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:40:05] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-30 11:40:10,324 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:40:10] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-30 11:40:11,927 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:40:11] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-30 11:40:14,809 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:40:14] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-30 11:40:37,504 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:40:37] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-30 11:40:45,315 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:40:45] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-30 11:42:00,735 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:42:00] "GET /overview HTTP/1.1" 200 -
+2026-04-30 11:42:00,838 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:42:00] "GET /api/patients HTTP/1.1" 200 -
+2026-04-30 11:43:54,837 - __main__ - INFO - User: ash00 | Action: Logout
+2026-04-30 11:43:54,845 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:43:54] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-30 11:43:54,853 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:43:54] "GET /login HTTP/1.1" 200 -
+2026-04-30 11:56:32,596 - __main__ - INFO - User: ash00 | Action: Login | Details: Role: Doctor
+2026-04-30 11:56:32,604 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:56:32] "POST /login HTTP/1.1" 200 -
+2026-04-30 11:56:32,628 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:56:32] "GET /overview HTTP/1.1" 200 -
+2026-04-30 11:56:32,701 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:56:32] "GET /api/patients HTTP/1.1" 200 -
+2026-04-30 11:57:25,795 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:57:25] "GET /dashboard/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 11:57:31,699 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:57:31] "GET /dashboard/FERT7006B0F4/simulation HTTP/1.1" 200 -
+2026-04-30 11:57:34,165 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:57:34] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:57:48,842 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:57:48] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:57:52,970 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:57:52] "GET /dashboard/FERT7006B0F4/ai-prediction HTTP/1.1" 200 -
+2026-04-30 11:57:55,025 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:57:55] "POST /api/predict HTTP/1.1" 200 -
+2026-04-30 11:58:00,048 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:58:00] "GET /dashboard/FERT7006B0F4/ai-explanation HTTP/1.1" 200 -
+2026-04-30 11:58:08,933 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:58:08] "POST /api/generate_explanation HTTP/1.1" 200 -
+2026-04-30 11:58:14,262 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:58:14] "GET /dashboard/FERT7006B0F4/scan-reports HTTP/1.1" 200 -
+2026-04-30 11:58:14,360 - werkzeug - INFO - 127.0.0.1 - - [30/Apr/2026 11:58:14] "GET /api/get_scans/FERT7006B0F4 HTTP/1.1" 200 -
+2026-04-30 11:59:57,604 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.148.175.27:5000
+2026-04-30 11:59:57,604 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-04-30 11:59:57,620 - werkzeug - INFO -  * Restarting with stat
+2026-04-30 12:00:01,004 - werkzeug - WARNING -  * Debugger is active!
+2026-04-30 12:00:01,004 - werkzeug - INFO -  * Debugger PIN: 514-194-548

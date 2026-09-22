@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Prediction — {{ patient.Patient_Name }}</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#F4A7C3;--pink-d:#E07FA8;--lilac:#C4A8E0;--lilac-d:#9B72C8;--bg:#FBF2FF;--white:#fff;--text:#3D2C4E;--grey:#8A7A9A;}
+body{background:var(--bg);font-family:'Segoe UI',sans-serif;color:var(--text);}
+.sidebar{position:fixed;top:0;left:0;width:230px;height:100vh;background:linear-gradient(180deg,#3D2C4E,#5E3D7A);display:flex;flex-direction:column;padding:28px 20px;z-index:100;}
+.sidebar-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.sidebar-logo .icon{width:36px;height:36px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.sidebar-logo h2{color:white;font-size:15px;font-weight:700;}
+.patient-pill{background:rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;margin-bottom:20px;}
+.patient-pill .pid{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;}
+.patient-pill .pname{font-size:14px;color:white;font-weight:600;margin-top:2px;}
+.nav-section{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;padding:0 14px;margin-bottom:8px;margin-top:10px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:rgba(255,255,255,.6);font-size:13px;transition:all .2s;margin-bottom:3px;text-decoration:none;}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.13);color:white;}
+.nav-item.active{border-left:3px solid var(--pink);}
+.sidebar-footer{margin-top:auto;padding:12px;background:rgba(255,255,255,.07);border-radius:10px;}
+.sf-name{color:white;font-size:13px;font-weight:600;}
+.sf-role{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px;}
+.sidebar-footer a{color:var(--pink);font-size:11px;text-decoration:none;display:inline-block;margin-top:6px;margin-right:10px;}
+.main{margin-left:230px;padding:32px;}
+.page-title{font-size:24px;font-weight:800;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--grey);margin-bottom:24px;}
+.pred-top{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.card{background:white;border-radius:18px;padding:24px;box-shadow:0 2px 14px rgba(155,114,200,.08);}
+.card-title{font-size:13px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:18px;}
+.pred-result{text-align:center;padding:20px;}
+.pred-badge{display:inline-block;padding:12px 28px;border-radius:50px;font-size:18px;font-weight:800;margin-bottom:10px;}
+.pred-conf{font-size:13px;color:var(--grey);margin-bottom:12px;}
+.conf-bar{height:10px;background:#E8D5F0;border-radius:6px;overflow:hidden;margin:0 20px;}
+.conf-fill{height:10px;border-radius:6px;}
+.run-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px;}
+.param-check{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F5EBF8;font-size:13px;}
+.param-check:last-child{border-bottom:none;}
+.pck-warn{color:#E67E22;font-size:12px;font-weight:600;}
+.pck-ok{color:#27AE60;font-size:12px;}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.disclaimer{background:#FFF8E1;border:1px solid #FFD54F;border-radius:12px;padding:14px;font-size:12px;color:#7A5C00;margin-top:8px;}
+</style>
+</head>
+<body>
+{% set pid = patient.Patient_ID %}
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="icon"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 2v7l4 2" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+    <h2>FertiCare AI</h2>
+  </div>
+  <div class="patient-pill">
+    <div class="pid">{{ patient.Patient_ID }}</div>
+    <div class="pname">{{ patient.Patient_Name }}</div>
+  </div>
+  <div class="nav-section">Patient Sections</div>
+  <a class="nav-item" href="/dashboard/{{ pid }}">🏠 Overview</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/clinical-data">📋 Clinical Data</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/simulation">🔬 Simulation</a>
+  <a class="nav-item active" href="/dashboard/{{ pid }}/ai-prediction">🤖 AI Prediction</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/ai-explanation">💬 AI Explanation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/scan-reports">🖼️ Scan Reports</a>
+  <div class="sidebar-footer">
+    <div class="sf-name">{{ user.name }}</div>
+    <div class="sf-role">{{ user.role }}</div>
+    <a href="/overview">← Patients</a><a href="/logout">Sign Out</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-title">AI Prediction</div>
+  <div class="page-sub">Machine learning based ovarian response and OHSS risk prediction for {{ patient.Patient_Name }}</div>
+
+  <button class="run-btn" onclick="runPrediction()">🤖 Run AI Prediction</button>
+
+  <div class="pred-top">
+    <div class="card">
+      <div class="card-title">Ovarian Response</div>
+      <div class="pred-result" id="resp-result">
+        <div style="font-size:42px;margin-bottom:12px;">🔮</div>
+        <p style="color:var(--grey);">Click Run to get prediction</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">OHSS Risk</div>
+      <div class="pred-result" id="ohss-result">
+        <div style="font-size:42px;margin-bottom:12px;">⚖️</div>
+        <p style="color:var(--grey);">Click Run to get prediction</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="card">
+      <div class="card-title">Feature Importance</div>
+      <canvas id="fi-chart" height="260"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">Parameter Status</div>
+      <div id="param-status"><p style="color:var(--grey);font-size:13px;">Run prediction to see parameter analysis</p></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚕️ This AI prediction is a clinical decision support tool. Results must be interpreted by a qualified reproductive endocrinologist in the context of the patient's full clinical picture.
+  </div>
+</div>
+
+<script>
+const patient = {{ patient | tojson }};
+let fiChart = null;
+
+async function runPrediction(){
+  document.getElementById('resp-result').innerHTML='<div style="padding:30px;color:var(--grey);">Predicting…</div>';
+  document.getElementById('ohss-result').innerHTML='<div style="padding:30px;color:var(--grey);">Predicting…</div>';
+
+  try{
+    const r = await fetch('/api/predict',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(patient)
+    });
+    const d = await r.json();
+    renderPrediction(d);
+  } catch(e) {
+    document.getElementById('resp-result').innerHTML='<p style="color:red;">Error: '+e.message+'</p>';
+  }
+}
+
+function renderPrediction(d){
+  const resp = d.ovarian_response||'Normal';
+  const ohss = d.ohss_risk;
+  const rc = d.response_confidence||75;
+  const oc = d.ohss_confidence||80;
+
+  const respColor = resp==='Normal'?'#E8F8EE,#27AE60':resp==='Hyper'?'#FFF0E0,#E67E22':'#FFE8EC,#E74C3C';
+  const [rbg, rtc] = respColor.split(',');
+
+  document.getElementById('resp-result').innerHTML=`
+    <div class="pred-badge" style="background:${rbg};color:${rtc}">${resp} Response</div>
+    <div class="pred-conf">Confidence: ${rc.toFixed(1)}%</div>
+    <div class="conf-bar"><div class="conf-fill" style="width:${rc}%;background:${rtc}"></div></div>
+  `;
+
+  const ohssC = ohss?'#E74C3C':'#27AE60';
+  const ohssBg = ohss?'#FFE8EC':'#E8F8EE';
+  document.getElementById('ohss-result').innerHTML=`
+    <div class="pred-badge" style="background:${ohssBg};color:${ohssC}">${ohss?'HIGH RISK':'LOW RISK'}</div>
+    <div class="pred-conf">Confidence: ${oc.toFixed(1)}%</div>
+    <div class="conf-bar"><div class="conf-fill" style="width:${oc}%;background:${ohssC}"></div></div>
+  `;
+
+  const fi = d.feature_importance||{};
+  const keys = Object.keys(fi).slice(0,8);
+  const vals = keys.map(k=>fi[k]);
+  if(keys.length){
+    if(fiChart)fiChart.destroy();
+    fiChart = new Chart(document.getElementById('fi-chart'),{
+      type:'bar',
+      data:{
+        labels:keys,
+        datasets:[{
+          label:'Importance (%)',
+          data:vals,
+          backgroundColor:keys.map((_,i)=>`hsla(${270+i*15},60%,65%,0.8)`),
+          borderRadius:6,
+        }]
+      },
+      options:{
+        indexAxis:'y',
+        responsive:true,
+        plugins:{legend:{display:false}},
+        scales:{x:{beginAtZero:true,ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}
+      }
+    });
+  }
+
+  const warnings = d.param_warnings||{};
+  const allParams = ['Age','BMI','AMH','AFC','Basal_FSH','Basal_LH','Basal_E2','Stimulation_Days','Dominant_Follicle_Size','E2_Trigger'];
+  document.getElementById('param-status').innerHTML = allParams.map(p=>{
+    const w = warnings[p];
+    const val = patient[p];
+    return `<div class="param-check">
+      <span>${p.replace(/_/g,' ')}: <b>${val||'—'}</b></span>
+      ${w?`<span class="pck-warn">⚠ ${w.status}</span>`:'<span class="pck-ok">✓</span>'}
+    </div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>

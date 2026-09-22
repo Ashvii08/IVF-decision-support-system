@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulation — {{ patient.Patient_Name }}</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#F4A7C3;--pink-d:#E07FA8;--lilac:#C4A8E0;--lilac-d:#9B72C8;--bg:#FBF2FF;--white:#fff;--text:#3D2C4E;--grey:#8A7A9A;}
+body{background:var(--bg);font-family:'Segoe UI',sans-serif;color:var(--text);}
+.sidebar{position:fixed;top:0;left:0;width:230px;height:100vh;background:linear-gradient(180deg,#3D2C4E,#5E3D7A);display:flex;flex-direction:column;padding:28px 20px;z-index:100;}
+.sidebar-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.sidebar-logo .icon{width:36px;height:36px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.sidebar-logo h2{color:white;font-size:15px;font-weight:700;}
+.patient-pill{background:rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;margin-bottom:20px;}
+.patient-pill .pid{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;}
+.patient-pill .pname{font-size:14px;color:white;font-weight:600;margin-top:2px;}
+.nav-section{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;padding:0 14px;margin-bottom:8px;margin-top:10px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:rgba(255,255,255,.6);font-size:13px;transition:all .2s;margin-bottom:3px;text-decoration:none;}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.13);color:white;}
+.nav-item.active{border-left:3px solid var(--pink);}
+.sidebar-footer{margin-top:auto;padding:12px;background:rgba(255,255,255,.07);border-radius:10px;}
+.sf-name{color:white;font-size:13px;font-weight:600;}
+.sf-role{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px;}
+.sidebar-footer a{color:var(--pink);font-size:11px;text-decoration:none;display:inline-block;margin-top:6px;margin-right:10px;}
+.main{margin-left:230px;padding:32px;}
+.page-title{font-size:24px;font-weight:800;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--grey);margin-bottom:24px;}
+.sim-layout{display:grid;grid-template-columns:380px 1fr;gap:24px;}
+.card{background:white;border-radius:18px;padding:24px;box-shadow:0 2px 14px rgba(155,114,200,.08);}
+.card-title{font-size:13px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:18px;}
+.slider-group{margin-bottom:20px;}
+.slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.slider-name{font-size:13px;font-weight:600;}
+.slider-val{font-size:14px;font-weight:800;color:var(--lilac-d);min-width:60px;text-align:right;}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:4px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));cursor:pointer;}
+input[type=range].normal{background:linear-gradient(to right,#E8D5F0 0%,#9B72C8 50%,#E8D5F0 100%);}
+.btn-run{width:100%;padding:13px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;}
+.btn-reset{width:100%;padding:10px;background:white;border:1.5px solid #E8D5F0;color:var(--grey);border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.result-card{background:#FDF7FF;border-radius:14px;padding:16px;border:1px solid #EDD8F8;}
+.result-label{font-size:11px;font-weight:700;color:var(--grey);text-transform:uppercase;margin-bottom:6px;}
+.result-value{font-size:20px;font-weight:800;color:var(--text);}
+.result-sub{font-size:12px;color:var(--grey);margin-top:3px;}
+.conf-bar{height:8px;background:#E8D5F0;border-radius:4px;margin-top:8px;overflow:hidden;}
+.conf-fill{height:8px;border-radius:4px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));}
+.warning-box{background:#FFF3CD;border:1px solid #FFD700;border-radius:12px;padding:14px;margin-top:14px;font-size:13px;color:#7A5C00;}
+.no-result{text-align:center;padding:60px 20px;color:var(--grey);}
+</style>
+</head>
+<body>
+{% set pid = patient.Patient_ID %}
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="icon"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 2v7l4 2" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+    <h2>FertiCare AI</h2>
+  </div>
+  <div class="patient-pill">
+    <div class="pid">{{ patient.Patient_ID }}</div>
+    <div class="pname">{{ patient.Patient_Name }}</div>
+  </div>
+  <div class="nav-section">Patient Sections</div>
+  <a class="nav-item" href="/dashboard/{{ pid }}">🏠 Overview</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/clinical-data">📋 Clinical Data</a>
+  <a class="nav-item active" href="/dashboard/{{ pid }}/simulation">🔬 Simulation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/ai-prediction">🤖 AI Prediction</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/ai-explanation">💬 AI Explanation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/scan-reports">🖼️ Scan Reports</a>
+  <div class="sidebar-footer">
+    <div class="sf-name">{{ user.name }}</div>
+    <div class="sf-role">{{ user.role }}</div>
+    <a href="/overview">← Patients</a><a href="/logout">Sign Out</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-title">Stimulation Simulation</div>
+  <div class="page-sub">Adjust parameters and run predictions to explore treatment scenarios for {{ patient.Patient_Name }}</div>
+
+  <div class="sim-layout">
+    <div>
+      <div class="card">
+        <div class="card-title">Simulation Parameters</div>
+
+        <div class="slider-group">
+          <div class="slider-label"><span class="slider-name">AMH (ng/mL)</span><span class="slider-val" id="sv-amh">{{ patient.AMH }}</span></div>
+          <input type="range" id="sl-amh" min="0.1" max="10" step="0.1" value="{{ patient.AMH }}" class="normal" oninput="document.getElementById('sv-amh').textContent=parseFloat(this.value).toFixed(1)">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label"><span class="slider-name">AFC (count)</span><span class="slider-val" id="sv-afc">{{ patient.AFC }}</span></div>
+          <input type="range" id="sl-afc" min="1" max="40" step="1" value="{{ patient.AFC or 10 }}" class="normal" oninput="document.getElementById('sv-afc').textContent=this.value">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label"><span class="slider-name">Basal FSH (IU/L)</span><span class="slider-val" id="sv-fsh">{{ patient.Basal_FSH }}</span></div>
+          <input type="range" id="sl-fsh" min="1" max="25" step="0.1" value="{{ patient.Basal_FSH or 5 }}" class="normal" oninput="document.getElementById('sv-fsh').textContent=parseFloat(this.value).toFixed(1)">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label"><span class="slider-name">Stim Days</span><span class="slider-val" id="sv-stim">{{ patient.Stimulation_Days }}</span></div>
+          <input type="range" id="sl-stim" min="6" max="18" step="1" value="{{ patient.Stimulation_Days or 10 }}" class="normal" oninput="document.getElementById('sv-stim').textContent=this.value">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label"><span class="slider-name">E2 Trigger (pg/mL)</span><span class="slider-val" id="sv-e2t">{{ patient.E2_Trigger }}</span></div>
+          <input type="range" id="sl-e2t" min="500" max="8000" step="100" value="{{ patient.E2_Trigger or 2000 }}" class="normal" oninput="document.getElementById('sv-e2t').textContent=this.value">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label"><span class="slider-name">Follicle Size (mm)</span><span class="slider-val" id="sv-fs">{{ patient.Dominant_Follicle_Size }}</span></div>
+          <input type="range" id="sl-fs" min="10" max="28" step="0.5" value="{{ patient.Dominant_Follicle_Size or 18 }}" class="normal" oninput="document.getElementById('sv-fs').textContent=parseFloat(this.value).toFixed(1)">
+        </div>
+
+        <button class="btn-run" onclick="runSimulation()">▶ Run Simulation</button>
+        <button class="btn-reset" onclick="resetToPatient()">↺ Reset to Patient Values</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" id="result-card">
+        <div class="card-title">Simulation Results</div>
+        <div id="sim-results">
+          <div class="no-result">
+            <div style="font-size:48px;margin-bottom:12px;">🔬</div>
+            <p style="font-size:15px;font-weight:600;">Adjust sliders and run simulation</p>
+            <p style="font-size:13px;margin-top:6px;">Results will appear here</p>
+          </div>
+        </div>
+        <canvas id="sim-chart" height="200" style="display:none;margin-top:20px;"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const patient = {{ patient | tojson }};
+let simChart = null;
+
+function resetToPatient(){
+  document.getElementById('sl-amh').value=patient.AMH||2;
+  document.getElementById('sv-amh').textContent=parseFloat(patient.AMH||2).toFixed(1);
+  document.getElementById('sl-afc').value=patient.AFC||10;
+  document.getElementById('sv-afc').textContent=patient.AFC||10;
+  document.getElementById('sl-fsh').value=patient.Basal_FSH||5;
+  document.getElementById('sv-fsh').textContent=parseFloat(patient.Basal_FSH||5).toFixed(1);
+  document.getElementById('sl-stim').value=patient.Stimulation_Days||10;
+  document.getElementById('sv-stim').textContent=patient.Stimulation_Days||10;
+  document.getElementById('sl-e2t').value=patient.E2_Trigger||2000;
+  document.getElementById('sv-e2t').textContent=patient.E2_Trigger||2000;
+  document.getElementById('sl-fs').value=patient.Dominant_Follicle_Size||18;
+  document.getElementById('sv-fs').textContent=parseFloat(patient.Dominant_Follicle_Size||18).toFixed(1);
+}
+
+async function runSimulation(){
+  const simData = {
+    Patient_ID: patient.Patient_ID,
+    Patient_Name: patient.Patient_Name,
+    Age: patient.Age,
+    BMI: patient.BMI,
+    AMH: parseFloat(document.getElementById('sl-amh').value),
+    AFC: parseInt(document.getElementById('sl-afc').value),
+    Basal_FSH: parseFloat(document.getElementById('sl-fsh').value),
+    Basal_LH: patient.Basal_LH||5,
+    Basal_E2: patient.Basal_E2||45,
+    Stimulation_Days: parseInt(document.getElementById('sl-stim').value),
+    E2_Trigger: parseFloat(document.getElementById('sl-e2t').value),
+    Dominant_Follicle_Size: parseFloat(document.getElementById('sl-fs').value),
+    Oocytes_Retrieved: patient.Oocytes_Retrieved||8,
+  };
+
+  document.getElementById('sim-results').innerHTML='<div style="text-align:center;padding:40px;color:var(--grey);">Running simulation…</div>';
+
+  try{
+    const r = await fetch('/api/predict', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(simData)
+    });
+    const d = await r.json();
+    renderResults(d, simData);
+  } catch(e) {
+    document.getElementById('sim-results').innerHTML='<div style="text-align:center;padding:40px;color:#E74C3C;">Simulation error: '+e.message+'</div>';
+  }
+}
+
+function renderResults(d, simData){
+  const resp = d.ovarian_response || 'Normal';
+  const ohss = d.ohss_risk;
+  const rConf = d.response_confidence || 75;
+  const oConf = d.ohss_confidence || 80;
+
+  const respColor = resp.toLowerCase()==='normal'?'#27AE60':resp.toLowerCase()==='hyper'?'#E67E22':'#E74C3C';
+  const ohssColor = ohss?'#E74C3C':'#27AE60';
+
+  let warnings = '';
+  if(d.param_warnings && Object.keys(d.param_warnings).length){
+    const w = Object.entries(d.param_warnings).map(([k,v])=>`${k}: ${v.status} (${v.value})`).join(', ');
+    warnings = `<div class="warning-box">⚠️ Parameter alerts: ${w}</div>`;
+  }
+
+  document.getElementById('sim-results').innerHTML = `
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="result-label">Ovarian Response</div>
+        <div class="result-value" style="color:${respColor}">${resp}</div>
+        <div class="result-sub">Confidence: ${rConf.toFixed(1)}%</div>
+        <div class="conf-bar"><div class="conf-fill" style="width:${rConf}%"></div></div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">OHSS Risk</div>
+        <div class="result-value" style="color:${ohssColor}">${ohss?'HIGH':'LOW'}</div>
+        <div class="result-sub">Confidence: ${oConf.toFixed(1)}%</div>
+        <div class="conf-bar"><div class="conf-fill" style="width:${oConf}%;background:${ohssColor}"></div></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--grey);margin-top:4px;">
+      AMH: ${simData.AMH} · AFC: ${simData.AFC} · FSH: ${simData.Basal_FSH} · Stim: ${simData.Stimulation_Days} days
+    </div>
+    ${warnings}
+  `;
+
+  // Render comparison chart
+  const fi = d.feature_importance || {};
+  const keys = Object.keys(fi).slice(0,7);
+  const vals = keys.map(k=>fi[k]);
+  const canvas = document.getElementById('sim-chart');
+  canvas.style.display='block';
+  if(simChart)simChart.destroy();
+  simChart = new Chart(canvas, {
+    type:'bar',
+    data:{
+      labels: keys,
+      datasets:[{
+        label:'Feature Importance (%)',
+        data: vals,
+        backgroundColor:'rgba(155,114,200,0.7)',
+        borderColor:'rgba(155,114,200,1)',
+        borderWidth:1,
+        borderRadius:6,
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y.toFixed(1)}%`}}},
+      scales:{y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}
+    }
+  });
+}
+</script>
+</body>
+</html>

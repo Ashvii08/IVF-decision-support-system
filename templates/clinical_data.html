@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clinical Data — {{ patient.Patient_Name }}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#F4A7C3;--pink-d:#E07FA8;--lilac:#C4A8E0;--lilac-d:#9B72C8;--bg:#FBF2FF;--white:#fff;--text:#3D2C4E;--grey:#8A7A9A;}
+body{background:var(--bg);font-family:'Segoe UI',sans-serif;color:var(--text);}
+.sidebar{position:fixed;top:0;left:0;width:230px;height:100vh;background:linear-gradient(180deg,#3D2C4E,#5E3D7A);display:flex;flex-direction:column;padding:28px 20px;z-index:100;}
+.sidebar-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.sidebar-logo .icon{width:36px;height:36px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.sidebar-logo h2{color:white;font-size:15px;font-weight:700;}
+.patient-pill{background:rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;margin-bottom:20px;}
+.patient-pill .pid{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;}
+.patient-pill .pname{font-size:14px;color:white;font-weight:600;margin-top:2px;}
+.nav-section{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;padding:0 14px;margin-bottom:8px;margin-top:10px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:rgba(255,255,255,.6);font-size:13px;cursor:pointer;transition:all .2s;margin-bottom:3px;text-decoration:none;}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.13);color:white;}
+.nav-item.active{border-left:3px solid var(--pink);}
+.sidebar-footer{margin-top:auto;padding:12px;background:rgba(255,255,255,.07);border-radius:10px;}
+.sf-name{color:white;font-size:13px;font-weight:600;}
+.sf-role{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px;}
+.sidebar-footer a{color:var(--pink);font-size:11px;text-decoration:none;display:inline-block;margin-top:6px;margin-right:10px;}
+.main{margin-left:230px;padding:32px;}
+.page-title{font-size:24px;font-weight:800;margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--grey);margin-bottom:28px;}
+.section-card{background:white;border-radius:18px;padding:24px;box-shadow:0 2px 14px rgba(155,114,200,.08);margin-bottom:20px;}
+.section-title{font-size:13px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;padding-bottom:14px;border-bottom:1.5px solid #F5EBF8;margin-bottom:18px;}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:700;color:var(--grey);text-transform:uppercase;}
+input,select{padding:10px 13px;border:1.5px solid #E8D5F0;border-radius:10px;font-size:14px;color:var(--text);background:white;outline:none;transition:border-color .2s;}
+input:focus,select:focus{border-color:var(--lilac-d);}
+input.warn-f{border-color:#F39C12!important;background:#FFFBF0;}
+input.err-f{border-color:#E74C3C!important;background:#FFF5F5;}
+.fhint{font-size:11px;font-weight:600;margin-top:2px;}
+.fhint.low{color:#E67E22;}
+.fhint.high{color:#E74C3C;}
+.fhint.ok{color:#27AE60;}
+.btn-row{display:flex;gap:12px;margin-top:8px;}
+.btn-save{padding:11px 28px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;}
+.btn-cancel{padding:11px 22px;border:1.5px solid #E8D5F0;background:white;color:var(--grey);border-radius:12px;cursor:pointer;font-size:14px;font-weight:600;}
+.range-bar-wrap{margin-top:6px;}
+.range-label{display:flex;justify-content:space-between;font-size:10px;color:var(--grey);margin-bottom:3px;}
+.range-track{height:6px;background:#F0E8FA;border-radius:4px;position:relative;overflow:visible;}
+.range-fill{height:6px;border-radius:4px;position:absolute;top:0;}
+.toast{position:fixed;bottom:28px;right:28px;background:#27AE60;color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(39,174,96,.3);transform:translateY(100px);transition:transform .3s;z-index:400;}
+.toast.show{transform:translateY(0);}
+.toast.err{background:#E74C3C;}
+</style>
+</head>
+<body>
+{% set pid = patient.Patient_ID %}
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="icon"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 2v7l4 2" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+    <h2>FertiCare AI</h2>
+  </div>
+  <div class="patient-pill">
+    <div class="pid">{{ patient.Patient_ID }}</div>
+    <div class="pname">{{ patient.Patient_Name }}</div>
+  </div>
+  <div class="nav-section">Patient Sections</div>
+  <a class="nav-item" href="/dashboard/{{ pid }}">🏠 Overview</a>
+  <a class="nav-item active" href="/dashboard/{{ pid }}/clinical-data">📋 Clinical Data</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/simulation">🔬 Simulation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/ai-prediction">🤖 AI Prediction</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/ai-explanation">💬 AI Explanation</a>
+  <a class="nav-item" href="/dashboard/{{ pid }}/scan-reports">🖼️ Scan Reports</a>
+  <div class="sidebar-footer">
+    <div class="sf-name">{{ user.name }}</div>
+    <div class="sf-role">{{ user.role }}</div>
+    <a href="/overview">← Patients</a><a href="/logout">Sign Out</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-title">Clinical Data</div>
+  <div class="page-sub">{{ patient.Patient_Name }} · {{ patient.Patient_ID }}</div>
+
+  <div class="section-card">
+    <div class="section-title">Patient Demographics</div>
+    <div class="form-grid">
+      <div class="form-group full"><label>Patient Name</label><input type="text" id="f-name" value="{{ patient.Patient_Name }}"></div>
+      <div class="form-group"><label>Age (years)</label><input type="number" id="f-age" value="{{ patient.Age }}" oninput="lv(this,'Age',18,45)"></div>
+      <div class="form-group"><label>BMI (kg/m²)</label><input type="number" id="f-bmi" value="{{ patient.BMI }}" step="0.1" oninput="lv(this,'BMI',18.5,32)"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">Ovarian Reserve Markers</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>AMH (ng/mL)</label>
+        <input type="number" id="f-amh" value="{{ patient.AMH }}" step="0.01" oninput="lv(this,'AMH',1,6)">
+        <div class="range-bar-wrap" id="bar-AMH"></div>
+      </div>
+      <div class="form-group">
+        <label>AFC (count)</label>
+        <input type="number" id="f-afc" value="{{ patient.AFC }}" oninput="lv(this,'AFC',5,30)">
+        <div class="range-bar-wrap" id="bar-AFC"></div>
+      </div>
+      <div class="form-group">
+        <label>Basal FSH (IU/L)</label>
+        <input type="number" id="f-fsh" value="{{ patient.Basal_FSH }}" step="0.01" oninput="lv(this,'Basal_FSH',2,10)">
+        <div class="range-bar-wrap" id="bar-FSH"></div>
+      </div>
+      <div class="form-group">
+        <label>Basal LH (IU/L)</label>
+        <input type="number" id="f-lh" value="{{ patient.Basal_LH }}" step="0.01" oninput="lv(this,'Basal_LH',1,10)">
+      </div>
+      <div class="form-group">
+        <label>Basal E2 (pg/mL)</label>
+        <input type="number" id="f-e2b" value="{{ patient.Basal_E2 }}" step="0.1" oninput="lv(this,'Basal_E2',20,80)">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">Stimulation & Outcome</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Stimulation Days</label>
+        <input type="number" id="f-stim" value="{{ patient.Stimulation_Days }}" oninput="lv(this,'Stimulation_Days',8,14)">
+      </div>
+      <div class="form-group">
+        <label>Dominant Follicle (mm)</label>
+        <input type="number" id="f-fs" value="{{ patient.Dominant_Follicle_Size }}" step="0.1" oninput="lv(this,'Dominant_Follicle_Size',17,22)">
+      </div>
+      <div class="form-group">
+        <label>E2 Trigger (pg/mL)</label>
+        <input type="number" id="f-e2t" value="{{ patient.E2_Trigger }}" step="0.1" oninput="lv(this,'E2_Trigger',1000,4000)">
+      </div>
+      <div class="form-group">
+        <label>Oocytes Retrieved</label>
+        <input type="number" id="f-ooc" value="{{ patient.Oocytes_Retrieved }}">
+      </div>
+      <div class="form-group">
+        <label>Ovarian Response</label>
+        <select id="f-resp">
+          <option value="Normal" {% if patient.Ovarian_Response=='Normal' %}selected{% endif %}>Normal</option>
+          <option value="Hyper" {% if patient.Ovarian_Response=='Hyper' %}selected{% endif %}>Hyper</option>
+          <option value="Poor" {% if patient.Ovarian_Response=='Poor' %}selected{% endif %}>Poor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Pregnancy</label>
+        <select id="f-preg">
+          <option value="0" {% if not patient.Pregnancy %}selected{% endif %}>No</option>
+          <option value="1" {% if patient.Pregnancy %}selected{% endif %}>Yes</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-save" onclick="saveAll()">💾 Save Changes</button>
+    <button class="btn-cancel" onclick="window.location='/dashboard/{{ pid }}'">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PR={Age:[18,45],BMI:[18.5,32],AMH:[1,6],AFC:[5,30],Basal_FSH:[2,10],Basal_LH:[1,10],Basal_E2:[20,80],Stimulation_Days:[8,14],Dominant_Follicle_Size:[17,22],E2_Trigger:[1000,4000]};
+
+function lv(el,key,lo,hi){
+  const v=parseFloat(el.value);
+  const fg=el.closest('.form-group');
+  let hint=fg.querySelector('.fhint');
+  if(!hint){hint=document.createElement('div');hint.className='fhint';fg.insertBefore(hint,el.nextSibling);}
+  el.classList.remove('warn-f','err-f');hint.className='fhint';hint.textContent='';
+  if(!el.value||isNaN(v))return;
+  if(v<lo){el.classList.add('warn-f');hint.classList.add('low');hint.textContent=`↓ Below normal (${lo}–${hi})`;}
+  else if(v>hi){el.classList.add('err-f');hint.classList.add('high');hint.textContent=`↑ Above normal (${lo}–${hi})`;}
+  else{hint.classList.add('ok');hint.textContent='✓ Normal range';}
+}
+
+async function saveAll(){
+  const data={
+    Patient_Name:document.getElementById('f-name').value,
+    Age:document.getElementById('f-age').value,
+    BMI:document.getElementById('f-bmi').value,
+    AMH:document.getElementById('f-amh').value,
+    AFC:document.getElementById('f-afc').value,
+    Basal_FSH:document.getElementById('f-fsh').value,
+    Basal_LH:document.getElementById('f-lh').value,
+    Basal_E2:document.getElementById('f-e2b').value,
+    Stimulation_Days:document.getElementById('f-stim').value,
+    Dominant_Follicle_Size:document.getElementById('f-fs').value,
+    E2_Trigger:document.getElementById('f-e2t').value,
+    Oocytes_Retrieved:document.getElementById('f-ooc').value,
+    Ovarian_Response:document.getElementById('f-resp').value,
+    Pregnancy:document.getElementById('f-preg').value,
+  };
+  try{
+    const r=await fetch('/api/update_patient/{{ pid }}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const d=await r.json();
+    if(d.success)showToast('Changes saved successfully');
+    else showToast('Save failed','err');
+  }catch(e){showToast('Connection error','err');}
+}
+
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast'+(type==='err'?' err':'')+' show';
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>

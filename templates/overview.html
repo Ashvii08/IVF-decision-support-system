@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FertiCare AI — Overview</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#F4A7C3;--pink-d:#E07FA8;--lilac:#C4A8E0;--lilac-d:#9B72C8;--bg:#FBF2FF;--white:#fff;--text:#3D2C4E;--grey:#8A7A9A;}
+body{background:var(--bg);font-family:'Segoe UI',sans-serif;color:var(--text);}
+.sidebar{position:fixed;top:0;left:0;width:230px;height:100vh;background:linear-gradient(180deg,#3D2C4E,#5E3D7A);display:flex;flex-direction:column;padding:28px 20px;z-index:100;}
+.sidebar-logo{display:flex;align-items:center;gap:12px;margin-bottom:36px;}
+.sidebar-logo .icon{width:40px;height:40px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.sidebar-logo h2{color:white;font-size:16px;font-weight:700;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:rgba(255,255,255,.6);font-size:14px;cursor:pointer;transition:all .2s;margin-bottom:4px;text-decoration:none;}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.12);color:white;}
+.sidebar-footer{margin-top:auto;padding:14px;background:rgba(255,255,255,.07);border-radius:10px;}
+.sf-name{color:white;font-size:13px;font-weight:600;}
+.sf-role{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px;}
+.sidebar-footer a{color:var(--pink);font-size:12px;text-decoration:none;display:block;margin-top:8px;}
+.main{margin-left:230px;padding:32px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.topbar h1{font-size:24px;}
+.topbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.add-btn{background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border:none;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;}
+.csv-btn{background:white;color:var(--lilac-d);border:2px solid var(--lilac-d);padding:10px 18px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;}
+.tmpl-btn{background:white;color:var(--grey);border:1.5px solid #E8D5F0;padding:10px 14px;border-radius:12px;font-size:13px;cursor:pointer;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:28px;}
+.stat{background:white;padding:20px;border-radius:16px;box-shadow:0 2px 12px rgba(155,114,200,.1);border-left:4px solid var(--pink-d);}
+.stat-val{font-size:28px;font-weight:800;}
+.stat-lbl{font-size:12px;color:var(--grey);margin-top:3px;}
+.toolbar{display:flex;gap:14px;margin-bottom:20px;}
+.search{flex:1;padding:11px 16px;border:1.5px solid #E8D5F0;border-radius:10px;font-size:14px;outline:none;}
+.table-wrap{background:white;border-radius:18px;box-shadow:0 2px 16px rgba(155,114,200,.1);overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead th{background:#F5EBF8;padding:14px 16px;text-align:left;font-size:12px;color:var(--grey);font-weight:700;text-transform:uppercase;}
+tbody tr{border-bottom:1px solid #F5EBF8;}
+tbody tr:hover{background:#FDF7FF;}
+tbody td{padding:13px 16px;font-size:14px;}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-normal{background:#E8F8EE;color:#1D6B3E;}
+.badge-hyper{background:#FFF0E0;color:#7A4000;}
+.badge-poor{background:#FFE8EC;color:#8B1A2B;}
+.view-btn{background:linear-gradient(135deg,var(--pink),var(--lilac));color:white;border:none;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;}
+.del-btn{background:#FFE8EC;color:#C0392B;border:none;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-left:4px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(61,44,78,.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
+.modal-overlay.show{display:flex;}
+.modal{background:white;border-radius:22px;padding:32px;width:720px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 60px rgba(155,114,200,.3);}
+.modal h2{font-size:20px;margin-bottom:18px;}
+.modal-tabs{display:flex;background:#F5EAF9;border-radius:10px;padding:4px;margin-bottom:20px;flex-wrap:wrap;gap:4px;}
+.modal-tab{flex:1;padding:8px 6px;text-align:center;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--grey);border:none;background:none;min-width:70px;}
+.modal-tab.active{background:white;color:var(--text);box-shadow:0 2px 6px rgba(155,114,200,.2);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:700;color:var(--grey);text-transform:uppercase;}
+input[type=text],input[type=number],input[type=password]{padding:10px 12px;border:1.5px solid #E8D5F0;border-radius:10px;font-size:14px;width:100%;outline:none;}
+input:focus{border-color:var(--lilac-d);}
+input.warn-f{border-color:#F39C12!important;}
+input.err-f{border-color:#E74C3C!important;}
+.fhint{font-size:11px;font-weight:600;margin-top:2px;color:#3498db;}
+.fhint.high{color:#E74C3C;}
+.modal-btns{display:flex;gap:12px;margin-top:20px;justify-content:flex-end;}
+.btn-cancel{padding:10px 20px;border:1.5px solid #E8D5F0;background:white;color:var(--grey);border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;}
+.btn-save{padding:10px 26px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));color:white;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;}
+.ocr-zone{border:2px dashed #D0A8D8;border-radius:14px;padding:24px;text-align:center;cursor:pointer;background:#FDF7FF;transition:background .2s;}
+.ocr-zone:hover,.ocr-zone.dragover{background:#F5E8FF;}
+.ocr-result{background:#F0FFF4;border:1px solid #A8D8B0;border-radius:10px;padding:12px;margin-top:12px;display:none;font-size:13px;}
+/* VOICE STYLES */
+.voice-box{background:#F5EEFF;border-radius:14px;padding:20px;}
+.voice-header{text-align:center;margin-bottom:16px;}
+.voice-header h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.voice-header p{font-size:13px;color:var(--grey);}
+.voice-qa{background:white;border-radius:12px;padding:18px;margin-bottom:14px;border:1.5px solid #E8D5F0;min-height:80px;}
+.voice-question{font-size:13px;font-weight:700;color:var(--lilac-d);margin-bottom:8px;}
+.voice-answer{font-size:15px;font-weight:600;color:var(--text);min-height:24px;}
+.voice-controls{display:flex;gap:10px;justify-content:center;margin-bottom:14px;}
+.vbtn-main{width:70px;height:70px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;border:none;transition:all .2s;}
+.vbtn-main.listening{animation:pulse 1s infinite;box-shadow:0 0 0 8px rgba(224,127,168,.25);}
+.vbtn-main:disabled{opacity:.5;cursor:not-allowed;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(224,127,168,.5)}50%{box-shadow:0 0 0 14px rgba(224,127,168,0)}}
+.vbtn-skip{padding:10px 18px;background:white;border:1.5px solid #E8D5F0;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:var(--grey);}
+.vbtn-skip:disabled{opacity:.4;cursor:not-allowed;}
+.voice-progress-bar{height:6px;background:#E8D5F0;border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.voice-progress-fill{height:6px;background:linear-gradient(135deg,var(--pink-d),var(--lilac-d));border-radius:4px;transition:width .4s;}
+.voice-collected{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+.vcol-item{background:white;border-radius:8px;padding:8px 10px;font-size:12px;border:1px solid #E8D5F0;}
+.vcol-label{color:var(--grey);font-size:10px;font-weight:700;text-transform:uppercase;}
+.vcol-val{font-weight:700;color:var(--text);margin-top:2px;}
+.vcol-input{width:100%;border:1px solid #E8D5F0;border-radius:6px;padding:4px 6px;font-size:12px;color:var(--text);margin-top:4px;outline:none;}
+.vstatus-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:10px;}
+.vstatus-badge.listening{background:#E8F8EE;color:#1D6B3E;}
+.vstatus-badge.thinking{background:#FFF0E0;color:#7A4000;}
+.vstatus-badge.done{background:#E8D5F0;color:#5E3D7A;}
+.vstatus-badge.idle{background:#F5EBF8;color:var(--grey);}
+.file-modal{width:580px;}
+.file-upload-zone{border:2px dashed #D0A8D8;border-radius:14px;padding:32px;text-align:center;cursor:pointer;background:#FDF7FF;transition:background .2s;}
+.file-upload-zone:hover{background:#F5E8FF;}
+.file-result{margin-top:14px;padding:14px;border-radius:10px;font-size:13px;display:none;}
+.file-result.success{background:#F0FFF4;border:1px solid #A8D8B0;color:#1D6B3E;}
+.file-result.error{background:#FFE8EC;border:1px solid #F4A7C3;color:#8B1A2B;}
+.tmpl-row{display:flex;gap:8px;margin-top:10px;}
+.toast{position:fixed;bottom:28px;right:28px;background:#27AE60;color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(39,174,96,.3);transform:translateY(100px);transition:transform .3s;z-index:400;}
+.toast.show{transform:translateY(0);}
+.toast.err{background:#E74C3C;}
+select{padding:10px 12px;border:1.5px solid #E8D5F0;border-radius:10px;font-size:14px;width:100%;outline:none;background:white;color:var(--text);}
+/* OCR field hints */
+.ocr-field-wrap{position:relative;}
+.ocr-placeholder{font-size:10px;color:#B0A0C8;font-style:italic;margin-top:2px;}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="icon"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="white" opacity=".15"/><path d="M6 11h10M11 6v10" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <h2>FertiCare AI</h2>
+  </div>
+  <a class="nav-item active" href="/overview">🏠 Overview</a>
+  <div class="sidebar-footer">
+    <div class="sf-name">{{ user.name }}</div>
+    <div class="sf-role">{{ user.role }}</div>
+    <a href="/logout">← Sign Out</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <h1>Patient Overview</h1>
+    <div class="topbar-right">
+      <button class="tmpl-btn" onclick="openImportModal()">📤 Import File</button>
+      <button class="add-btn" onclick="openAddModal()">＋ Add Patient</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total Patients</div></div>
+    <div class="stat" style="border-left-color:#9B72C8"><div class="stat-val" id="s-normal">—</div><div class="stat-lbl">Normal Response</div></div>
+    <div class="stat" style="border-left-color:#F39C12"><div class="stat-val" id="s-hyper">—</div><div class="stat-lbl">Hyper Response</div></div>
+    <div class="stat" style="border-left-color:#E74C3C"><div class="stat-val" id="s-poor">—</div><div class="stat-lbl">Poor Response</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input class="search" id="search" placeholder="🔍 Search by name or patient ID..." oninput="renderTable()">
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Patient ID</th><th>Name</th><th>Age</th><th>AMH</th><th>AFC</th><th>Response</th><th>OHSS Risk</th><th>Added</th><th>Actions</th>
+      </tr></thead>
+      <tbody id="tbl-body"><tr><td colspan="9" style="text-align:center;padding:48px;color:var(--grey);">Loading…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ADD PATIENT MODAL -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <h2>Add New Patient</h2>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchAddTab('manual')">✏️ Manual</button>
+      <button class="modal-tab" onclick="switchAddTab('ocr')">📷 OCR</button>
+      <button class="modal-tab" onclick="switchAddTab('voice')">🎤 Voice</button>
+      <button class="modal-tab" onclick="switchAddTab('api')">🔌 API</button>
+    </div>
+
+    <!-- MANUAL TAB -->
+    <div id="tab-manual">
+      <div class="form-grid">
+        <div class="form-group full"><label>Patient Name *</label><input id="f-name" type="text" placeholder="Full name e.g. Priya Sharma"></div>
+        <div class="form-group"><label>Age (yrs) — Normal: 18–45</label><input id="f-age" type="number" min="1" max="100" placeholder="e.g. 32" oninput="lv(this,'Age')"></div>
+        <div class="form-group"><label>BMI (kg/m²) — Normal: 18.5–32</label><input id="f-bmi" type="number" step="0.1" placeholder="e.g. 22.5" oninput="lv(this,'BMI')"></div>
+        <div class="form-group"><label>AMH (ng/mL) — Normal: 1.0–6.0</label><input id="f-amh" type="number" step="0.01" placeholder="e.g. 2.1" oninput="lv(this,'AMH')"></div>
+        <div class="form-group"><label>AFC (count) — Normal: 5–30</label><input id="f-afc" type="number" placeholder="e.g. 12" oninput="lv(this,'AFC')"></div>
+        <div class="form-group"><label>Basal FSH (IU/L) — Normal: 2–10</label><input id="f-fsh" type="number" step="0.01" placeholder="e.g. 6.5" oninput="lv(this,'Basal_FSH')"></div>
+        <div class="form-group"><label>Basal LH (IU/L) — Normal: 1–10</label><input id="f-lh" type="number" step="0.01" placeholder="e.g. 5.2" oninput="lv(this,'Basal_LH')"></div>
+        <div class="form-group"><label>Basal E2 (pg/mL) — Normal: 20–80</label><input id="f-e2b" type="number" step="0.1" placeholder="e.g. 45.0" oninput="lv(this,'Basal_E2')"></div>
+        <div class="form-group"><label>Stimulation Days — Normal: 8–14</label><input id="f-stim" type="number" placeholder="e.g. 10" oninput="lv(this,'Stimulation_Days')"></div>
+        <div class="form-group"><label>Follicle Size (mm) — Normal: 17–22</label><input id="f-fs" type="number" step="0.1" placeholder="e.g. 19.5" oninput="lv(this,'Dominant_Follicle_Size')"></div>
+        <div class="form-group"><label>E2 Trigger (pg/mL) — Normal: 1000–4000</label><input id="f-e2t" type="number" step="0.1" placeholder="e.g. 2500" oninput="lv(this,'E2_Trigger')"></div>
+        <div class="form-group"><label>Oocytes Retrieved</label><input id="f-ooc" type="number" placeholder="e.g. 8"></div>
+      </div>
+      <button class="btn-save" style="width:100%;margin-top:12px;" onclick="runAutofill()">🤖 Smart Autofill Missing Values</button>
+    </div>
+
+    <!-- OCR TAB -->
+    <div id="tab-ocr" style="display:none">
+      <div class="ocr-zone" id="ocr-drop"
+           ondragover="event.preventDefault();this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="ocrDrop(event)"
+           onclick="document.getElementById('ocr-file').click()">
+        <div style="font-size:40px;margin-bottom:8px;">📋</div>
+        <p style="font-weight:600;margin-bottom:4px;">Click or drag ultrasound/lab report image</p>
+        <p style="font-size:12px;color:var(--grey);">JPG, PNG supported — Tesseract OCR will extract values</p>
+        <input type="file" id="ocr-file" accept="image/*" style="display:none" onchange="runOCR(this.files[0])">
+      </div>
+      <div id="ocr-result" class="ocr-result"></div>
+      <div id="ocr-preview-img" style="margin:10px 0;display:none;"><img id="ocr-img" style="max-width:100%;max-height:160px;border-radius:10px;border:1px solid #E8D5F0;" alt="Scan preview"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--lilac-d);text-transform:uppercase;margin:14px 0 8px;letter-spacing:1px;">Extracted / Edit Values</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Patient Name</label>
+          <input id="fo-name" type="text" placeholder="e.g. Priya Sharma — extracted or type manually">
+          <div class="ocr-placeholder">Normal: Full name of patient</div>
+        </div>
+        <div class="form-group">
+          <label>Age (yrs)</label>
+          <input id="fo-age" type="number" placeholder="e.g. 32">
+          <div class="ocr-placeholder">Normal range: 18–45 years</div>
+        </div>
+        <div class="form-group">
+          <label>BMI (kg/m²)</label>
+          <input id="fo-bmi" type="number" step="0.1" placeholder="e.g. 22.5">
+          <div class="ocr-placeholder">Normal range: 18.5–32 kg/m²</div>
+        </div>
+        <div class="form-group">
+          <label>AMH (ng/mL)</label>
+          <input id="fo-amh" type="number" step="0.01" placeholder="e.g. 2.1">
+          <div class="ocr-placeholder">Normal range: 1.0–6.0 ng/mL</div>
+        </div>
+        <div class="form-group">
+          <label>AFC (count)</label>
+          <input id="fo-afc" type="number" placeholder="e.g. 12">
+          <div class="ocr-placeholder">Normal range: 5–30 follicles</div>
+        </div>
+        <div class="form-group">
+          <label>Basal FSH (IU/L)</label>
+          <input id="fo-fsh" type="number" step="0.01" placeholder="e.g. 6.5">
+          <div class="ocr-placeholder">Normal range: 2–10 IU/L</div>
+        </div>
+        <div class="form-group">
+          <label>Basal LH (IU/L)</label>
+          <input id="fo-lh" type="number" step="0.01" placeholder="e.g. 5.2">
+          <div class="ocr-placeholder">Normal range: 1–10 IU/L</div>
+        </div>
+        <div class="form-group">
+          <label>Follicle Size (mm)</label>
+          <input id="fo-fs" type="number" step="0.1" placeholder="e.g. 19.5">
+          <div class="ocr-placeholder">Normal range: 17–22 mm</div>
+        </div>
+        <div class="form-group">
+          <label>E2 Trigger (pg/mL)</label>
+          <input id="fo-e2t" type="number" placeholder="e.g. 2500">
+          <div class="ocr-placeholder">Normal range: 1000–4000 pg/mL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOICE TAB -->
+    <div id="tab-voice" style="display:none">
+      <div class="voice-box">
+        <div class="voice-header">
+          <h3>🎤 Voice-Guided Input</h3>
+          <p>The system will ask each question. Speak your answer, then it moves to the next field. You can edit any value after.</p>
+        </div>
+
+        <div style="text-align:center;margin-bottom:10px;">
+          <span class="vstatus-badge idle" id="vstatus-badge">Ready</span>
+        </div>
+
+        <div class="voice-progress-bar">
+          <div class="voice-progress-fill" id="vprogress" style="width:0%"></div>
+        </div>
+
+        <div class="voice-qa" id="vqa-box">
+          <div class="voice-question" id="vquestion">Press the mic button to start voice input</div>
+          <div class="voice-answer" id="vanswer" style="color:var(--grey);">Your answer will appear here...</div>
+        </div>
+
+        <div class="voice-controls">
+          <button class="vbtn-skip" id="vbtn-skip" onclick="voiceSkip()" disabled>⏭ Skip</button>
+          <button class="vbtn-main" id="vbtn-mic" onclick="voiceAction()">🎤</button>
+          <button class="vbtn-skip" id="vbtn-restart" onclick="voiceRestart()" style="display:none">↺ Restart</button>
+        </div>
+
+        <div style="font-size:12px;color:var(--grey);text-align:center;margin-bottom:12px;" id="vhint">Click mic to begin — Chrome recommended for best results</div>
+
+        <div id="voice-fields-grid" style="display:none;">
+          <div style="font-size:11px;font-weight:700;color:var(--grey);text-transform:uppercase;margin-bottom:8px;letter-spacing:1px;">Review & Edit Collected Values</div>
+          <div class="voice-collected" id="vcollected-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API TAB -->
+    <div id="tab-api" style="display:none">
+      <p style="font-size:13px;color:var(--grey);margin-bottom:12px;">Fetch simulated patient data from hospital API.</p>
+      <button class="btn-save" style="width:100%;margin-bottom:14px;" onclick="fetchAPI()">📡 Fetch from API</button>
+      <div class="form-grid">
+        <div class="form-group full"><label>Name</label><input id="ae-name" type="text" placeholder="e.g. Ananya Patel"></div>
+        <div class="form-group"><label>Age</label><input id="ae-age" type="number" placeholder="18–45"></div>
+        <div class="form-group"><label>BMI</label><input id="ae-bmi" type="number" step="0.1" placeholder="18.5–32"></div>
+        <div class="form-group"><label>AMH (ng/mL)</label><input id="ae-amh" type="number" step="0.01" placeholder="1.0–6.0"></div>
+        <div class="form-group"><label>AFC</label><input id="ae-afc" type="number" placeholder="5–30"></div>
+        <div class="form-group"><label>Basal FSH</label><input id="ae-fsh" type="number" step="0.01" placeholder="2–10 IU/L"></div>
+        <div class="form-group"><label>Basal LH</label><input id="ae-lh" type="number" step="0.01" placeholder="1–10 IU/L"></div>
+        <div class="form-group"><label>Basal E2</label><input id="ae-e2b" type="number" step="0.1" placeholder="20–80 pg/mL"></div>
+        <div class="form-group"><label>Stim Days</label><input id="ae-stim" type="number" placeholder="8–14 days"></div>
+        <div class="form-group"><label>Follicle Size</label><input id="ae-fs" type="number" step="0.1" placeholder="17–22 mm"></div>
+        <div class="form-group"><label>E2 Trigger</label><input id="ae-e2t" type="number" placeholder="1000–4000 pg/mL"></div>
+        <div class="form-group"><label>Oocytes</label><input id="ae-ooc" type="number" placeholder="e.g. 8"></div>
+      </div>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="btn-save" onclick="savePatient()">💾 Save Patient</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT FILE MODAL -->
+<div class="modal-overlay" id="import-modal">
+  <div class="modal file-modal">
+    <h2>📤 Import Patients</h2>
+    <p style="font-size:13px;color:var(--grey);margin-bottom:16px;">Upload a CSV or Excel file to bulk-import patients. Each row becomes one patient record.</p>
+    <div style="background:#FDF7FF;border-radius:10px;padding:14px;margin-bottom:16px;font-size:12px;color:var(--text);">
+      <strong style="display:block;margin-bottom:6px;">Supported columns (case-insensitive):</strong>
+      Patient_Name, Age, BMI, AMH, AFC, Basal_FSH, Basal_LH, Basal_E2, Stimulation_Days, Dominant_Follicle_Size, E2_Trigger, Oocytes_Retrieved, Ovarian_Response, OHSS_Risk, Pregnancy
+    </div>
+    <div class="file-upload-zone" id="file-drop"
+         ondragover="event.preventDefault();this.style.background='#F5E8FF'"
+         ondragleave="this.style.background=''"
+         ondrop="fileDrop(event)"
+         onclick="document.getElementById('file-input').click()">
+      <div style="font-size:40px;margin-bottom:8px;">📂</div>
+      <p style="font-weight:600;margin-bottom:4px;">Click or drag file here</p>
+      <p style="font-size:12px;color:var(--grey);">.csv, .xlsx, .xls files supported</p>
+      <input type="file" id="file-input" accept=".csv,.xlsx,.xls" style="display:none" onchange="processImportFile(this.files[0])">
+    </div>
+    <div id="file-result" class="file-result"></div>
+    <div class="tmpl-row">
+      <button class="btn-cancel" style="flex:1" onclick="closeImportModal()">Close</button>
+      <button class="tmpl-btn" style="flex:1;padding:10px;" onclick="downloadCSVTemplate()">⬇ CSV Template</button>
+      <button class="tmpl-btn" style="flex:1;padding:10px;" onclick="downloadXLSXTemplate()">⬇ Excel Template</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PR={Age:[18,45],BMI:[18.5,32],AMH:[1,6],AFC:[5,30],Basal_FSH:[2,10],Basal_LH:[1,10],Basal_E2:[20,80],Stimulation_Days:[8,14],Dominant_Follicle_Size:[17,22],E2_Trigger:[1000,4000]};
+let allPatients=[];
+
+// ─── VOICE ENGINE ───────────────────────────────────────────────
+const VOICE_FIELDS = [
+  {key:'Patient_Name', label:'What is the patient\'s full name?', isText:true, hint:'e.g. Priya Sharma'},
+  {key:'Age', label:'What is the patient\'s age in years?', hint:'Normal: 18–45 years'},
+  {key:'BMI', label:'What is the BMI in kg per m squared?', hint:'Normal: 18.5–32'},
+  {key:'AMH', label:'What is the AMH level in ng per mL?', hint:'Normal: 1.0–6.0 ng/mL'},
+  {key:'AFC', label:'What is the Antral Follicle Count?', hint:'Normal: 5–30 follicles'},
+  {key:'Basal_FSH', label:'What is the Basal FSH in IU per L?', hint:'Normal: 2–10 IU/L'},
+  {key:'Basal_LH', label:'What is the Basal LH in IU per L?', hint:'Normal: 1–10 IU/L'},
+  {key:'Basal_E2', label:'What is the Basal Estradiol in pg per mL?', hint:'Normal: 20–80 pg/mL'},
+  {key:'Stimulation_Days', label:'How many stimulation days?', hint:'Normal: 8–14 days'},
+  {key:'Dominant_Follicle_Size', label:'What is the dominant follicle size in mm?', hint:'Normal: 17–22 mm'},
+  {key:'E2_Trigger', label:'What is the E2 at trigger in pg per mL?', hint:'Normal: 1000–4000 pg/mL'},
+  {key:'Oocytes_Retrieved', label:'How many oocytes were retrieved?', hint:'Typical: 5–15'},
+];
+
+let voiceData = {};
+let voiceIdx = 0;
+let voiceActive = false;
+let voiceRec = null;
+let voiceStep = 'idle'; // idle | speaking | listening | done
+
+function voiceAction(){
+  if(voiceStep === 'idle') { voiceStart(); return; }
+  if(voiceStep === 'speaking') { speechSynthesis.cancel(); startListening(); return; }
+  if(voiceStep === 'listening') { if(voiceRec){try{voiceRec.stop();}catch(e){}} return; }
+  if(voiceStep === 'done') { voiceRestart(); return; }
+}
+
+function voiceStart(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ showToast('Voice requires Chrome browser','err'); return; }
+  voiceData={};voiceIdx=0;voiceActive=true;voiceStep='speaking';
+  document.getElementById('voice-fields-grid').style.display='none';
+  document.getElementById('vbtn-skip').disabled=false;
+  document.getElementById('vbtn-restart').style.display='none';
+  document.getElementById('vbtn-mic').textContent='🎤';
+  askField();
+}
+
+function voiceRestart(){ voiceStart(); }
+
+function voiceSkip(){
+  if(!voiceActive)return;
+  if(voiceRec){try{voiceRec.stop();}catch(e){}}
+  speechSynthesis.cancel();
+  voiceData[VOICE_FIELDS[voiceIdx].key] = null;
+  voiceIdx++;
+  if(voiceIdx >= VOICE_FIELDS.length){ voiceDone(); return; }
+  voiceStep='speaking';
+  setTimeout(()=>askField(), 300);
+}
+
+function setVoiceStatus(status, text){
+  const badge = document.getElementById('vstatus-badge');
+  badge.className = 'vstatus-badge ' + status;
+  badge.textContent = text;
+}
+
+function askField(){
+  if(!voiceActive || voiceIdx >= VOICE_FIELDS.length){ voiceDone(); return; }
+  const field = VOICE_FIELDS[voiceIdx];
+  const pct = Math.round((voiceIdx / VOICE_FIELDS.length) * 100);
+  document.getElementById('vprogress').style.width = pct + '%';
+  document.getElementById('vquestion').textContent = `(${voiceIdx+1}/${VOICE_FIELDS.length}) ${field.label}`;
+  document.getElementById('vanswer').textContent = '...';
+  document.getElementById('vanswer').style.color = 'var(--grey)';
+  document.getElementById('vhint').textContent = field.hint || '';
+  setVoiceStatus('thinking', 'Speaking question...');
+  document.getElementById('vbtn-mic').textContent='🔊';
+  
+  const utt = new SpeechSynthesisUtterance(field.label);
+  utt.lang = 'en-US';
+  utt.rate = 0.9;
+  utt.pitch = 1;
+  voiceStep = 'speaking';
+  
+  utt.onend = () => {
+    if(!voiceActive) return;
+    startListening();
+  };
+  utt.onerror = () => {
+    if(!voiceActive) return;
+    startListening();
+  };
+  speechSynthesis.speak(utt);
+}
+
+function startListening(){
+  if(!voiceActive) return;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  voiceRec = new SR();
+  voiceRec.lang = 'en-US';
+  voiceRec.continuous = false;
+  voiceRec.interimResults = true;
+  voiceRec.maxAlternatives = 1;
+  voiceStep = 'listening';
+  setVoiceStatus('listening', '🔴 Listening...');
+  document.getElementById('vbtn-mic').textContent='⏹';
+  document.getElementById('vbtn-mic').classList.add('listening');
+  
+  voiceRec.onresult = (ev) => {
+    const isFinal = ev.results[ev.results.length-1].isFinal;
+    const transcript = ev.results[ev.results.length-1][0].transcript.trim();
+    document.getElementById('vanswer').textContent = transcript;
+    document.getElementById('vanswer').style.color = 'var(--text)';
+    if(isFinal){
+      processVoiceAnswer(transcript);
+    }
+  };
+  
+  voiceRec.onerror = (ev) => {
+    document.getElementById('vbtn-mic').classList.remove('listening');
+    if(ev.error === 'no-speech'){
+      document.getElementById('vanswer').textContent = '(no speech detected — skipped)';
+      voiceData[VOICE_FIELDS[voiceIdx].key] = null;
+    } else {
+      document.getElementById('vanswer').textContent = `Error: ${ev.error} — skipped`;
+      voiceData[VOICE_FIELDS[voiceIdx].key] = null;
+    }
+    voiceIdx++;
+    voiceStep = 'speaking';
+    setTimeout(()=>askField(), 800);
+  };
+  
+  voiceRec.onend = () => {
+    document.getElementById('vbtn-mic').classList.remove('listening');
+    // If we haven't processed yet (no result came), skip
+    if(voiceStep === 'listening'){
+      voiceData[VOICE_FIELDS[voiceIdx].key] = null;
+      voiceIdx++;
+      voiceStep = 'speaking';
+      setTimeout(()=>askField(), 600);
+    }
+  };
+  
+  try { voiceRec.start(); } catch(e){ console.warn(e); }
+}
+
+function processVoiceAnswer(text){
+  voiceStep = 'processed';
+  document.getElementById('vbtn-mic').classList.remove('listening');
+  const field = VOICE_FIELDS[voiceIdx];
+  let val;
+  if(field.isText){
+    val = text;
+  } else {
+    // Try to extract number from speech
+    const cleaned = text.replace(/[^0-9.]/g,'');
+    val = cleaned ? parseFloat(cleaned) : null;
+    if(isNaN(val)) val = null;
+  }
+  voiceData[field.key] = val;
+  document.getElementById('vanswer').textContent = val !== null ? String(val) : '(skipped)';
+  setVoiceStatus('thinking','Recorded ✓');
+  voiceIdx++;
+  voiceStep = 'speaking';
+  setTimeout(()=>askField(), 700);
+}
+
+function voiceDone(){
+  voiceActive = false;
+  voiceStep = 'done';
+  document.getElementById('vprogress').style.width = '100%';
+  document.getElementById('vquestion').textContent = '✅ All fields collected!';
+  document.getElementById('vanswer').textContent = 'Review values below and edit if needed, then click Save Patient.';
+  document.getElementById('vanswer').style.color = 'var(--text)';
+  setVoiceStatus('done','Complete ✓');
+  document.getElementById('vbtn-mic').textContent='↺';
+  document.getElementById('vbtn-mic').classList.remove('listening');
+  document.getElementById('vbtn-skip').disabled=true;
+  document.getElementById('vbtn-restart').style.display='inline-block';
+  document.getElementById('vhint').textContent='Edit any value in the boxes below before saving.';
+  renderVoiceCollected();
+}
+
+function renderVoiceCollected(){
+  const grid = document.getElementById('vcollected-grid');
+  const container = document.getElementById('voice-fields-grid');
+  container.style.display = 'block';
+  grid.innerHTML = VOICE_FIELDS.map(f => {
+    const val = voiceData[f.key];
+    const displayVal = val !== null && val !== undefined ? val : '';
+    const shortLabel = f.key.replace(/_/g,' ');
+    return `<div class="vcol-item">
+      <div class="vcol-label">${shortLabel}</div>
+      <input class="vcol-input" id="ve-${f.key}" type="${f.isText?'text':'number'}" value="${displayVal}" placeholder="—" oninput="voiceData['${f.key}']=this.type==='number'?parseFloat(this.value)||null:this.value">
+    </div>`;
+  }).join('');
+}
+
+// ─── OCR ────────────────────────────────────────────────────────
+function ocrDrop(e){e.preventDefault();document.getElementById('ocr-drop').classList.remove('dragover');runOCR(e.dataTransfer.files[0]);}
+
+async function runOCR(file){
+  if(!file)return;
+  const res=document.getElementById('ocr-result');
+  res.style.display='block';res.textContent='🔍 Processing OCR… please wait';res.style.background='#FFF8E1';res.style.borderColor='#FFD54F';
+  const fd=new FormData();fd.append('file',file);
+  
+  // Show image preview
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('ocr-img').src = ev.target.result;
+    document.getElementById('ocr-preview-img').style.display='block';
+  };
+  reader.readAsDataURL(file);
+  
+  try{
+    const r=await fetch('/api/ocr',{method:'POST',body:fd});
+    const d=await r.json();
+    if(d.success && d.extracted){
+      const ex=d.extracted;
+      if(ex.Patient_Name)document.getElementById('fo-name').value=ex.Patient_Name;
+      if(ex.Age)document.getElementById('fo-age').value=ex.Age;
+      if(ex.AMH)document.getElementById('fo-amh').value=ex.AMH;
+      if(ex.AFC)document.getElementById('fo-afc').value=ex.AFC;
+      if(ex.Basal_FSH)document.getElementById('fo-fsh').value=ex.Basal_FSH;
+      if(ex.Basal_LH)document.getElementById('fo-lh').value=ex.Basal_LH;
+      if(ex.BMI)document.getElementById('fo-bmi').value=ex.BMI;
+      if(ex.Dominant_Follicle_Size)document.getElementById('fo-fs').value=ex.Dominant_Follicle_Size;
+      if(ex.E2_Trigger)document.getElementById('fo-e2t').value=ex.E2_Trigger;
+      const count = Object.keys(ex).length;
+      if(count > 0){
+        res.textContent=`✅ OCR extracted ${count} field(s): ${Object.keys(ex).join(', ')}. Review and edit below, then fill remaining fields manually.`;
+        res.style.background='#F0FFF4';res.style.borderColor='#A8D8B0';
+        showToast(`OCR extracted ${count} fields`);
+      } else {
+        res.textContent='⚠️ OCR ran but could not find recognisable clinical values. Please fill the fields manually below.';
+        res.style.background='#FFF8E1';res.style.borderColor='#FFD54F';
+      }
+    } else if(d.error){
+      res.textContent='❌ OCR error: '+d.error+'. Please fill fields manually.';
+      res.style.background='#FFE8EC';res.style.borderColor='#F4A7C3';
+    } else {
+      res.textContent='⚠️ No data extracted. Fill fields manually below.';
+      res.style.background='#FFF8E1';res.style.borderColor='#FFD54F';
+    }
+  }catch(e){
+    res.textContent='❌ OCR failed — please fill fields manually below.';
+    res.style.background='#FFE8EC';res.style.borderColor='#F4A7C3';
+    showToast('OCR failed','err');
+  }
+}
+
+// ─── VALIDATION ─────────────────────────────────────────────────
+function lv(el,key){
+  const v=parseFloat(el.value);
+  const fg=el.closest('.form-group');
+  let hint=fg.querySelector('.fhint');
+  if(!hint){hint=document.createElement('div');hint.className='fhint';fg.appendChild(hint);}
+  el.classList.remove('warn-f','err-f');hint.textContent='';
+  if(!el.value||isNaN(v))return;
+  const r=PR[key];
+  if(r&&v<r[0]){el.classList.add('warn-f');hint.textContent='↓ Below normal range';}
+  else if(r&&v>r[1]){el.classList.add('err-f');hint.textContent='↑ Above normal range';hint.classList.add('high');}
+}
+
+// ─── PATIENTS TABLE ──────────────────────────────────────────────
+async function loadPatients(){
+  try{const r=await fetch('/api/patients');allPatients=await r.json();}catch(e){allPatients=[];}
+  updateStats();renderTable();
+}
+
+function updateStats(){
+  document.getElementById('s-total').textContent=allPatients.length;
+  document.getElementById('s-normal').textContent=allPatients.filter(p=>(p.Ovarian_Response||'').toLowerCase()==='normal').length;
+  document.getElementById('s-hyper').textContent=allPatients.filter(p=>(p.Ovarian_Response||'').toLowerCase()==='hyper').length;
+  document.getElementById('s-poor').textContent=allPatients.filter(p=>(p.Ovarian_Response||'').toLowerCase()==='poor').length;
+}
+
+function fmtDate(ts){
+  if(!ts)return'—';
+  return new Date(ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function renderTable(){
+  const q=document.getElementById('search').value.toLowerCase();
+  let filtered=allPatients.filter(p=>!q||(p.Patient_Name||'').toLowerCase().includes(q)||(p.Patient_ID||'').toLowerCase().includes(q));
+  const tb=document.getElementById('tbl-body');
+  if(!filtered.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--grey);">No patients found</td></tr>';return;}
+  const resp=r=>{const lc=(r||'normal').toLowerCase();return`<span class="badge badge-${lc==='normal'?'normal':lc==='hyper'?'hyper':'poor'}">${r||'Normal'}</span>`;};
+  tb.innerHTML=filtered.map(p=>`<tr>
+    <td><b style="font-family:monospace;font-size:13px;">${p.Patient_ID}</b></td>
+    <td>${p.Patient_Name||'—'}</td><td>${p.Age||'—'}</td><td>${p.AMH||'—'}</td><td>${p.AFC||'—'}</td>
+    <td>${resp(p.Ovarian_Response)}</td>
+    <td><span class="badge ${p.OHSS_Risk?'badge-poor':'badge-normal'}">${p.OHSS_Risk?'High':'Low'}</span></td>
+    <td style="font-size:12px;color:var(--grey);">${fmtDate(p.created_at)}</td>
+    <td><a class="view-btn" href="/dashboard/${p.Patient_ID}">View →</a>
+    <button class="del-btn" onclick="delPatient('${p.Patient_ID}')">🗑</button></td>
+  </tr>`).join('');
+}
+
+async function delPatient(pid){
+  if(!confirm(`Delete patient ${pid}? This cannot be undone.`))return;
+  await fetch('/api/delete_patient/'+pid,{method:'DELETE'});
+  showToast('Patient deleted');loadPatients();
+}
+
+// ─── MODAL CONTROLS ──────────────────────────────────────────────
+function openAddModal(){
+  voiceData={};voiceIdx=0;voiceActive=false;voiceStep='idle';
+  document.getElementById('add-modal').classList.add('show');
+  switchAddTab('manual');
+}
+function closeAddModal(){
+  document.getElementById('add-modal').classList.remove('show');
+  speechSynthesis.cancel();
+  if(voiceRec){try{voiceRec.stop();}catch(e){}}
+  voiceActive=false;
+}
+
+function switchAddTab(t){
+  const tabs=['manual','ocr','voice','api'];
+  document.querySelectorAll('.modal-tab').forEach((el,i)=>el.classList.toggle('active',tabs[i]===t));
+  tabs.forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
+  // Reset voice if switching away
+  if(t!=='voice'){ speechSynthesis.cancel(); if(voiceRec){try{voiceRec.stop();}catch(e){}} voiceActive=false; }
+}
+
+async function runAutofill(){
+  const d={Age:document.getElementById('f-age').value,AFC:document.getElementById('f-afc').value,AMH:document.getElementById('f-amh').value};
+  if(!d.Age&&!d.AFC){showToast('Enter Age or AFC first','err');return;}
+  try{
+    const r=await fetch('/api/autofill',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+    const res=await r.json();
+    if(res.filled){
+      if(res.filled.AMH&&!document.getElementById('f-amh').value)document.getElementById('f-amh').value=res.filled.AMH;
+      if(res.filled.Basal_FSH&&!document.getElementById('f-fsh').value)document.getElementById('f-fsh').value=res.filled.Basal_FSH;
+      if(res.filled.E2_Trigger&&!document.getElementById('f-e2t').value)document.getElementById('f-e2t').value=res.filled.E2_Trigger;
+      if(res.filled.Basal_LH&&!document.getElementById('f-lh').value)document.getElementById('f-lh').value=res.filled.Basal_LH;
+      showToast('Smart autofill applied');
+    }
+  }catch(e){showToast('Autofill failed','err');}
+}
+
+async function fetchAPI(){
+  try{
+    const r=await fetch('/api/mock_hospital_data');
+    const d=await r.json();
+    if(d.data){
+      document.getElementById('ae-name').value=d.data.Patient_Name||'';
+      document.getElementById('ae-age').value=d.data.Age||'';
+      document.getElementById('ae-bmi').value=d.data.BMI||'';
+      document.getElementById('ae-amh').value=d.data.AMH||'';
+      document.getElementById('ae-afc').value=d.data.AFC||'';
+      document.getElementById('ae-fsh').value=d.data.Basal_FSH||'';
+      document.getElementById('ae-lh').value=d.data.Basal_LH||'';
+      document.getElementById('ae-e2b').value=d.data.Basal_E2||'';
+      document.getElementById('ae-stim').value=d.data.Stimulation_Days||'';
+      document.getElementById('ae-fs').value=d.data.Dominant_Follicle_Size||'';
+      document.getElementById('ae-e2t').value=d.data.E2_Trigger||'';
+      document.getElementById('ae-ooc').value=d.data.Oocytes_Retrieved||'';
+      showToast('API data loaded');
+    }
+  }catch(e){showToast('API fetch failed','err');}
+}
+
+function getActiveTab(){
+  const tabs=['manual','ocr','voice','api'];
+  return tabs.find(t=>document.getElementById('tab-'+t).style.display!=='none')||'manual';
+}
+
+async function savePatient(){
+  let data={};
+  const t=getActiveTab();
+  if(t==='manual'){
+    const name=document.getElementById('f-name').value.trim();
+    if(!name){showToast('Patient name is required','err');return;}
+    data={Patient_Name:name,Age:document.getElementById('f-age').value,BMI:document.getElementById('f-bmi').value,AMH:document.getElementById('f-amh').value,AFC:document.getElementById('f-afc').value,Basal_FSH:document.getElementById('f-fsh').value,Basal_LH:document.getElementById('f-lh').value,Basal_E2:document.getElementById('f-e2b').value,Stimulation_Days:document.getElementById('f-stim').value,Dominant_Follicle_Size:document.getElementById('f-fs').value,E2_Trigger:document.getElementById('f-e2t').value,Oocytes_Retrieved:document.getElementById('f-ooc').value};
+  } else if(t==='ocr'){
+    const name=document.getElementById('fo-name').value.trim();
+    if(!name){showToast('Patient name is required','err');return;}
+    data={Patient_Name:name,Age:document.getElementById('fo-age').value,BMI:document.getElementById('fo-bmi').value,AMH:document.getElementById('fo-amh').value,AFC:document.getElementById('fo-afc').value,Basal_FSH:document.getElementById('fo-fsh').value,Basal_LH:document.getElementById('fo-lh').value,Dominant_Follicle_Size:document.getElementById('fo-fs').value,E2_Trigger:document.getElementById('fo-e2t').value};
+  } else if(t==='voice'){
+    // Read from editable inputs if rendered
+    VOICE_FIELDS.forEach(f=>{
+      const inp=document.getElementById('ve-'+f.key);
+      if(inp) voiceData[f.key]=f.isText?inp.value:(parseFloat(inp.value)||null);
+    });
+    if(!voiceData.Patient_Name){showToast('Complete voice input first — patient name missing','err');return;}
+    data=voiceData;
+  } else {
+    const name=document.getElementById('ae-name').value.trim();
+    if(!name){showToast('Patient name is required','err');return;}
+    data={Patient_Name:name,Age:document.getElementById('ae-age').value,BMI:document.getElementById('ae-bmi').value,AMH:document.getElementById('ae-amh').value,AFC:document.getElementById('ae-afc').value,Basal_FSH:document.getElementById('ae-fsh').value,Basal_LH:document.getElementById('ae-lh').value,Basal_E2:document.getElementById('ae-e2b').value,Stimulation_Days:document.getElementById('ae-stim').value,Dominant_Follicle_Size:document.getElementById('ae-fs').value,E2_Trigger:document.getElementById('ae-e2t').value,Oocytes_Retrieved:document.getElementById('ae-ooc').value};
+  }
+  try{
+    const r=await fetch('/api/add_patient',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const d=await r.json();
+    if(d.success){closeAddModal();showToast('Patient added successfully');loadPatients();}
+    else showToast('Save failed','err');
+  }catch(e){showToast('Connection error','err');}
+}
+
+// ─── FILE IMPORT ─────────────────────────────────────────────────
+function openImportModal(){document.getElementById('import-modal').classList.add('show');}
+function closeImportModal(){document.getElementById('import-modal').classList.remove('show');}
+
+function fileDrop(e){
+  e.preventDefault();
+  document.getElementById('file-drop').style.background='';
+  processImportFile(e.dataTransfer.files[0]);
+}
+
+async function processImportFile(file){
+  if(!file)return;
+  const res=document.getElementById('file-result');
+  res.style.display='block';res.className='file-result';res.textContent='Importing…';
+  const fd=new FormData();fd.append('file',file);
+  try{
+    const r=await fetch('/api/import_file',{method:'POST',body:fd});
+    const d=await r.json();
+    if(d.success){
+      res.className='file-result success';
+      let msg=`✅ Imported ${d.imported} patient(s) successfully.`;
+      if(d.skipped>0)msg+=` ${d.skipped} row(s) skipped.`;
+      if(d.errors&&d.errors.length)msg+='\n\nIssues:\n'+d.errors.join('\n');
+      res.textContent=msg;
+      showToast(`${d.imported} patients imported`);
+      loadPatients();
+    } else {
+      res.className='file-result error';
+      res.textContent='❌ '+d.message;
+      showToast('Import failed','err');
+    }
+  }catch(e){
+    res.className='file-result error';
+    res.textContent='Connection error during import.';
+    showToast('Import error','err');
+  }
+}
+
+function downloadCSVTemplate(){window.location='/api/csv_template';}
+function downloadXLSXTemplate(){window.location='/api/xlsx_template';}
+
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast'+(type==='err'?' err':'')+' show';
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+document.getElementById('add-modal').addEventListener('click',e=>{if(e.target.id==='add-modal')closeAddModal();});
+document.getElementById('import-modal').addEventListener('click',e=>{if(e.target.id==='import-modal')closeImportModal();});
+loadPatients();
+</script>
+</body>
+</html>

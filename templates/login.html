@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FertiCare AI — Login</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#F4A7C3;--pink-dark:#E07FA8;--lilac:#C4A8E0;--lilac-dark:#9B72C8;--bg:#FDF0F7;--white:#fff;--text:#3D2C4E;--grey:#8A7A9A;}
+body{background:linear-gradient(135deg,#FDE8F4 0%,#EDE0FF 50%,#F9E8FF 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;}
+.floating-shapes{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.shape{position:absolute;border-radius:50%;opacity:0.12;animation:float 8s ease-in-out infinite;}
+.s1{width:320px;height:320px;background:radial-gradient(var(--pink),transparent);top:-80px;left:-80px;}
+.s2{width:260px;height:260px;background:radial-gradient(var(--lilac),transparent);bottom:-60px;right:-60px;animation-delay:3s;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+.card{position:relative;z-index:1;background:rgba(255,255,255,0.93);backdrop-filter:blur(20px);border-radius:24px;padding:44px 40px;width:500px;box-shadow:0 20px 60px rgba(180,120,200,0.25);border:1px solid rgba(196,168,224,0.3);animation:slideUp .5s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.logo{text-align:center;margin-bottom:24px;}
+.logo svg{width:56px;height:56px;}
+.logo h1{font-size:22px;color:var(--text);font-weight:700;margin-top:10px;}
+.logo p{font-size:12px;color:var(--grey);margin-top:3px;}
+.tabs{display:flex;background:#F5EAF9;border-radius:12px;padding:4px;margin-bottom:24px;}
+.tab{flex:1;padding:10px;text-align:center;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;color:var(--grey);transition:all .2s;border:none;background:none;}
+.tab.active{background:white;color:var(--text);box-shadow:0 2px 8px rgba(155,114,200,0.2);}
+.form-group{margin-bottom:15px;}
+label{display:block;font-size:12px;font-weight:700;color:var(--grey);margin-bottom:5px;text-transform:uppercase;}
+input{width:100%;padding:12px 14px;border:1.5px solid #E8D5F0;border-radius:10px;font-size:14px;color:var(--text);background:#FDFAFF;outline:none;transition:all .2s;}
+input:focus{border-color:var(--lilac-dark);box-shadow:0 0 0 3px rgba(155,114,200,0.1);}
+.btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--pink-dark),var(--lilac-dark));color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(155,114,200,0.4);}
+.error{background:#FFE8EC;color:#C0392B;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none;}
+.hint{font-size:12px;color:var(--grey);text-align:center;margin-top:14px;}
+.panel{display:none;}.panel.active{display:block;}
+.role-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.role-card{border:2px solid #E8D5F0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;}
+.role-card:hover{border-color:var(--lilac-dark);}
+.role-card.selected{border-color:var(--lilac-dark);background:linear-gradient(135deg,#F5EEFF,#FDE8F4);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+</style>
+</head>
+<body>
+<div class="floating-shapes"><div class="shape s1"></div><div class="shape s2"></div></div>
+<div class="card">
+  <div class="logo">
+    <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="28" fill="url(#grad)"/><circle cx="28" cy="28" r="5" fill="white"/><defs><linearGradient id="grad"><stop stop-color="#E07FA8"/><stop offset="1" stop-color="#9B72C8"/></linearGradient></defs></svg>
+    <h1>FertiCare AI</h1><p>IVF Clinical Decision System</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('login')">Sign In</button>
+    <button class="tab" onclick="switchTab('register')">Register</button>
+  </div>
+  <div class="panel active" id="panel-login">
+    <div class="error" id="login-error"></div>
+    <div class="form-group"><label>Username</label><input type="text" id="login-user" placeholder="Enter your username"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Enter your password"></div>
+    <button class="btn" onclick="doLogin()">Sign In →</button>
+    <p class="hint">Demo: <b>doctor1 / doctor123</b></p>
+  </div>
+  <div class="panel" id="panel-register">
+    <div class="error" id="reg-error"></div>
+    <div style="font-size:11px;font-weight:700;color:var(--grey);text-transform:uppercase;margin-bottom:10px;letter-spacing:1px;">Select Role</div>
+    <div class="role-cards">
+      <div class="role-card selected" id="rc-Doctor" onclick="selectRole('Doctor')"><div style="font-size:24px;margin-bottom:6px;">👨‍⚕️</div><div style="font-size:13px;font-weight:700;">Doctor</div></div>
+      <div class="role-card" id="rc-Hospital" onclick="selectRole('Hospital')"><div style="font-size:24px;margin-bottom:6px;">🏥</div><div style="font-size:13px;font-weight:700;">Hospital</div></div>
+    </div>
+    <input type="hidden" id="reg-role" value="Doctor">
+    <div class="form-group"><label>Full Name *</label><input type="text" id="reg-name" placeholder="Dr. Priya Sharma"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Username *</label><input type="text" id="reg-user"></div>
+      <div class="form-group"><label>Password *</label><input type="password" id="reg-pass"></div>
+    </div>
+    <div id="fields-Doctor">
+      <div style="font-size:11px;font-weight:700;color:var(--lilac-dark);text-transform:uppercase;margin:14px 0 10px;letter-spacing:1px;border-bottom:1.5px solid #E8D5F0;padding-bottom:6px;">Doctor Info</div>
+      <div class="form-group"><label>Hospital Name</label><input type="text" id="reg-hospital"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Specialization</label><input type="text" id="reg-spec"></div>
+        <div class="form-group"><label>License No.</label><input type="text" id="reg-license"></div>
+      </div>
+    </div>
+    <div id="fields-Hospital" style="display:none">
+      <div style="font-size:11px;font-weight:700;color:var(--lilac-dark);text-transform:uppercase;margin:14px 0 10px;letter-spacing:1px;border-bottom:1.5px solid #E8D5F0;padding-bottom:6px;">Hospital Info</div>
+      <div class="form-group"><label>Organization Name</label><input type="text" id="reg-hosp-name"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Department</label><input type="text" id="reg-dept"></div>
+        <div class="form-group"><label>Contact</label><input type="text" id="reg-contact"></div>
+      </div>
+    </div>
+    <button class="btn" onclick="doRegister()">Create Account →</button>
+  </div>
+</div>
+<script>
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',(i===0&&t==='login')||(i===1&&t==='register')));
+  document.querySelectorAll('.panel').forEach(el=>el.classList.remove('active'));
+  document.getElementById('panel-'+t).classList.add('active');
+}
+function selectRole(role){
+  document.getElementById('reg-role').value=role;
+  document.querySelectorAll('.role-card').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('rc-'+role).classList.add('selected');
+  document.getElementById('fields-Doctor').style.display=role==='Doctor'?'block':'none';
+  document.getElementById('fields-Hospital').style.display=role==='Hospital'?'block':'none';
+}
+async function doLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  err.style.display='none';
+  if(!u||!p){err.textContent='Please fill all fields';err.style.display='block';return;}
+  try{
+    const res=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    const d=await res.json();
+    if(d.success)window.location='/overview';
+    else{err.textContent=d.message;err.style.display='block';}
+  }catch(e){err.textContent='Connection error';err.style.display='block';}
+}
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const user=document.getElementById('reg-user').value.trim();
+  const pass=document.getElementById('reg-pass').value.trim();
+  const role=document.getElementById('reg-role').value;
+  const err=document.getElementById('reg-error');
+  err.style.display='none';
+  if(!name||!user||!pass){err.textContent='Required fields missing';err.style.display='block';return;}
+  const payload={name,username:user,password:pass,role};
+  if(role==='Doctor'){payload.hospital_name=document.getElementById('reg-hospital').value.trim();payload.specialization=document.getElementById('reg-spec').value.trim();payload.license_number=document.getElementById('reg-license').value.trim();}
+  else{payload.hospital_name=document.getElementById('reg-hosp-name').value.trim();payload.department=document.getElementById('reg-dept').value.trim();payload.contact=document.getElementById('reg-contact').value.trim();}
+  try{
+    const res=await fetch('/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const d=await res.json();
+    if(d.success){switchTab('login');document.getElementById('login-user').value=user;}
+    else{err.textContent=d.message;err.style.display='block';}
+  }catch(e){err.textContent='Connection error';err.style.display='block';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){if(document.getElementById('panel-login').classList.contains('active'))doLogin();else doRegister();}});
+</script>
+</body>
+</html>
